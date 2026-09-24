@@ -63,14 +63,13 @@ function TypingText({ text, speed = 48, className = "", onComplete }: { text: st
 
   useEffect(() => {
     if (visible >= text.length) onComplete?.();
-  }, [visible, text.length]);
+  }, [visible, text.length, scrollRef, onComplete]);
 
   return <span className={className}>{text.slice(0, visible)}{visible < text.length ? <span className="typing-cursor">▌</span> : null}</span>;
 }
 
-function IntroTypingText({ text, speed = 12, onComplete }: { text: string; speed?: number; onComplete?: () => void }) {
+function IntroTypingText({ text, speed = 12, onComplete, scrollRef }: { text: string; speed?: number; onComplete?: () => void; scrollRef: React.RefObject<HTMLDivElement | null> }) {
   const [visible, setVisible] = useState(0);
-  const copyRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     setVisible(0);
@@ -96,20 +95,18 @@ function IntroTypingText({ text, speed = 12, onComplete }: { text: string; speed
   }, [text, speed]);
 
   useEffect(() => {
-    if (copyRef.current) {
-      const container = copyRef.current;
-      const distanceToBottom = container.scrollHeight - container.clientHeight - container.scrollTop;
-      if (distanceToBottom > 4 || visible >= text.length) {
-        container.scrollTo({
-          top: container.scrollHeight,
-          behavior: visible >= text.length ? "smooth" : "auto",
-        });
-      }
+    const container = scrollRef.current;
+    if (container) {
+      container.scrollTo({
+        top: container.scrollHeight,
+        behavior: visible >= text.length ? "smooth" : "auto",
+      });
     }
     if (visible >= text.length) {
       requestAnimationFrame(() => {
-        if (copyRef.current) {
-          copyRef.current.scrollTo({ top: copyRef.current.scrollHeight, behavior: "smooth" });
+        const finalContainer = scrollRef.current;
+        if (finalContainer) {
+          finalContainer.scrollTo({ top: finalContainer.scrollHeight, behavior: "smooth" });
         }
         onComplete?.();
       });
@@ -117,7 +114,7 @@ function IntroTypingText({ text, speed = 12, onComplete }: { text: string; speed
   }, [visible, text.length]);
 
   return (
-    <div className="intro-copy" ref={copyRef}>
+    <div className="intro-copy">
       <span>{text.slice(0, visible)}</span>
       {visible < text.length ? <span className="typing-cursor">▌</span> : null}
     </div>
@@ -191,6 +188,7 @@ export function AhsdGame() {
   const [history, setHistory] = useState<HistoryEntry[]>([]);
   const [ending, setEnding] = useState<Ending | null>(null);
   const [introReady, setIntroReady] = useState(false);
+  const introScrollRef = useRef<HTMLDivElement>(null);
   const scene = scenes[sceneIndex];
   const plausibleCount = history.filter((entry) => entry.plausible).length;
   const progress = ((sceneIndex + (phase === "outcome" ? 0.5 : 0)) / scenes.length) * 100;
@@ -236,12 +234,14 @@ export function AhsdGame() {
       <section className={`vn-stage ${phase === "intro" ? "intro-stage" : ""}`} aria-label="Cinco anos abaixo da superfície">
         {phase === "intro" ? (
           <section className="intro-screen">
+          <div className="intro-scroll" ref={introScrollRef}>
             <div className="intro-eyebrow">SUPER DESAFIOS · AHSD // PROTOCOLO 01</div>
             <h1>CINCO ANOS<br /><span>ABAIXO DA SUPERFÍCIE</span></h1>
             <div className="intro-line" />
-            <IntroTypingText text={INTRO_TEXT.join("\n\n")} speed={24} onComplete={() => setIntroReady(true)} />
+            <IntroTypingText text={INTRO_TEXT.join("\n\n")} speed={24} scrollRef={introScrollRef} onComplete={() => setIntroReady(true)} />
             <button className="intro-start" disabled={!introReady} onClick={() => setPhase("event")}><span>▶</span> {introReady ? "ENTRAR NA HISTÓRIA" : "LENDO..."}</button>
             <div className="intro-hint">Uma vida. 30 momentos. Nenhuma escolha existe sozinha.</div>
+          </div>
           </section>
         ) : (
           <>
