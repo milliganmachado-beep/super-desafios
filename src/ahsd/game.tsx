@@ -184,7 +184,7 @@ export function AhsdGame() {
             <h1>CINCO ANOS<br /><span>ABAIXO DA SUPERFÍCIE</span></h1>
             <div className="intro-line" />
             <div className="intro-copy">
-              <SequentialTyping paragraphs={INTRO_TEXT} speed={34} pause={650} onFinished={() => setIntroReady(true)} />
+              <TypingText text={INTRO_TEXT.join("\n\n")} speed={12} onComplete={() => setIntroReady(true)} />
             </div>
             <button className="intro-start" disabled={!introReady} onClick={() => setPhase("event")}><span>▶</span> {introReady ? "ENTRAR NA HISTÓRIA" : "LENDO..."}</button>
             <div className="intro-hint">Uma vida. 30 momentos. Nenhuma escolha existe sozinha.</div>
