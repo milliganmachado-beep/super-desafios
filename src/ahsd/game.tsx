@@ -97,12 +97,23 @@ function IntroTypingText({ text, speed = 12, onComplete }: { text: string; speed
 
   useEffect(() => {
     if (copyRef.current) {
-      copyRef.current.scrollTo({
-        top: copyRef.current.scrollHeight,
-        behavior: "smooth",
+      const container = copyRef.current;
+      const distanceToBottom = container.scrollHeight - container.clientHeight - container.scrollTop;
+      if (distanceToBottom > 4 || visible >= text.length) {
+        container.scrollTo({
+          top: container.scrollHeight,
+          behavior: visible >= text.length ? "smooth" : "auto",
+        });
+      }
+    }
+    if (visible >= text.length) {
+      requestAnimationFrame(() => {
+        if (copyRef.current) {
+          copyRef.current.scrollTo({ top: copyRef.current.scrollHeight, behavior: "smooth" });
+        }
+        onComplete?.();
       });
     }
-    if (visible >= text.length) onComplete?.();
   }, [visible, text.length]);
 
   return (
