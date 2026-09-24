@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { endings, routeLabels, scenes, statLabels, type Choice, type Ending, type StatKey } from "./story";
 import "./game.css";
 
@@ -66,6 +66,51 @@ function TypingText({ text, speed = 48, className = "", onComplete }: { text: st
   }, [visible, text.length]);
 
   return <span className={className}>{text.slice(0, visible)}{visible < text.length ? <span className="typing-cursor">▌</span> : null}</span>;
+}
+
+function IntroTypingText({ text, speed = 12, onComplete }: { text: string; speed?: number; onComplete?: () => void }) {
+  const [visible, setVisible] = useState(0);
+  const copyRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    setVisible(0);
+    if (!text) {
+      onComplete?.();
+      return;
+    }
+    let cancelled = false;
+    let timer = 0;
+
+    const tick = (index: number) => {
+      if (cancelled) return;
+      setVisible(index);
+      if (index >= text.length) return;
+      timer = window.setTimeout(() => tick(index + 1), speed);
+    };
+
+    timer = window.setTimeout(() => tick(1), speed);
+    return () => {
+      cancelled = true;
+      window.clearTimeout(timer);
+    };
+  }, [text, speed]);
+
+  useEffect(() => {
+    if (copyRef.current) {
+      copyRef.current.scrollTo({
+        top: copyRef.current.scrollHeight,
+        behavior: "smooth",
+      });
+    }
+    if (visible >= text.length) onComplete?.();
+  }, [visible, text.length]);
+
+  return (
+    <div className="intro-copy" ref={copyRef}>
+      <span>{text.slice(0, visible)}</span>
+      {visible < text.length ? <span className="typing-cursor">▌</span> : null}
+    </div>
+  );
 }
 
 function SequentialTyping({ paragraphs, speed = 48, pause = 850, onFinished }: { paragraphs: string[]; speed?: number; pause?: number; onFinished?: () => void }) {
@@ -183,9 +228,7 @@ export function AhsdGame() {
             <div className="intro-eyebrow">SUPER DESAFIOS · AHSD // PROTOCOLO 01</div>
             <h1>CINCO ANOS<br /><span>ABAIXO DA SUPERFÍCIE</span></h1>
             <div className="intro-line" />
-            <div className="intro-copy">
-              <TypingText text={INTRO_TEXT.join("\n\n")} speed={12} onComplete={() => setIntroReady(true)} />
-            </div>
+            <IntroTypingText text={INTRO_TEXT.join("\n\n")} speed={12} onComplete={() => setIntroReady(true)} />
             <button className="intro-start" disabled={!introReady} onClick={() => setPhase("event")}><span>▶</span> {introReady ? "ENTRAR NA HISTÓRIA" : "LENDO..."}</button>
             <div className="intro-hint">Uma vida. 30 momentos. Nenhuma escolha existe sozinha.</div>
           </section>
