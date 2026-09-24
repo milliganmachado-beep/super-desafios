@@ -35,8 +35,8 @@ function deltaText(deltas: Choice["deltas"]) {
   return STAT_KEYS.filter((key) => deltas[key]).map((key) => `${statLabels[key]} ${(deltas[key] ?? 0) > 0 ? "+" : ""}${deltas[key]}`).join(" · ");
 }
 
-function TypingText({ text, speed = 68, className = "", onComplete }: { text: string; speed?: number; className?: string; onComplete?: () => void }) {
-  const [visible, setVisible] = useState(0);
+function TypingText({ text, speed = 180, className = "", onComplete }: { text: string; speed?: number; className?: string; onComplete?: () => void }) {
+  const [visibleWords, setVisibleWords] = useState(0);
   const onCompleteRef = useRef(onComplete);
 
   useEffect(() => {
@@ -44,34 +44,53 @@ function TypingText({ text, speed = 68, className = "", onComplete }: { text: st
   }, [onComplete]);
 
   useEffect(() => {
-    setVisible(0);
-    if (!text) {
+    const words = text.match(/\\S+\\s*/g) ?? [];
+    setVisibleWords(0);
+
+    if (!words.length) {
       onCompleteRef.current?.();
       return;
     }
+
     let cancelled = false;
     let timer = 0;
 
     const tick = (index: number) => {
       if (cancelled) return;
-      setVisible(index);
-      if (index >= text.length) {
+      setVisibleWords(index);
+
+      if (index >= words.length) {
         onCompleteRef.current?.();
         return;
       }
-      const nextChar = text[index];
-      const punctuationPause = /[.!?]/.test(nextChar) ? 260 : /[,;:]/.test(nextChar) ? 120 : 0;
+
+      const previousWord = words[index - 1] ?? "";
+      const punctuationPause = /[.!?]\\s*$/.test(previousWord)
+        ? 420
+        : /[,;:]\\s*$/.test(previousWord)
+          ? 220
+          : 0;
+
       timer = window.setTimeout(() => tick(index + 1), speed + punctuationPause);
     };
 
     timer = window.setTimeout(() => tick(1), speed);
+
     return () => {
       cancelled = true;
       window.clearTimeout(timer);
     };
   }, [text, speed]);
 
-  return <span className={className}>{text.slice(0, visible)}{visible < text.length ? <span className="typing-cursor">▌</span> : null}</span>;
+  const words = text.match(/\\S+\\s*/g) ?? [];
+  const visibleText = words.slice(0, visibleWords).join("");
+
+  return (
+    <span className={className}>
+      {visibleText}
+      {visibleWords < words.length ? <span className="typing-cursor">▌</span> : null}
+    </span>
+  );
 }
 
 function IntroTypingText({ text, speed = 12, onComplete, scrollRef }: { text: string; speed?: number; onComplete?: () => void; scrollRef: RefObject<HTMLDivElement | null> }) {
