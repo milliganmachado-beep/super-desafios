@@ -146,40 +146,40 @@ function IntroTypingText({ text, speed = 12, onComplete, scrollRef }: { text: st
   );
 }
 
-function SequentialTyping({ paragraphs, speed = 48, pause = 850, onFinished }: { paragraphs: string[]; speed?: number; pause?: number; onFinished?: () => void }) {
+function SequentialTyping({ paragraphs, speed = 180, pause = 650, onFinished }: { paragraphs: string[]; speed?: number; pause?: number; onFinished?: () => void }) {
   const [active, setActive] = useState(0);
   const [finished, setFinished] = useState(false);
+  const onFinishedRef = useRef(onFinished);
+
+  useEffect(() => {
+    onFinishedRef.current = onFinished;
+  }, [onFinished]);
 
   useEffect(() => {
     setActive(0);
     setFinished(false);
   }, [paragraphs]);
 
-  useEffect(() => {
-    if (!paragraphs.length) {
-      setFinished(true);
-      onFinished?.();
-      return;
-    }
-    if (active >= paragraphs.length - 1) return;
-    // The active paragraph completes naturally; advance after its typing finishes.
-  }, [active, paragraphs.length, onFinished]);
-
   const handleComplete = () => {
     if (active >= paragraphs.length - 1) {
       setFinished(true);
-      onFinished?.();
+      onFinishedRef.current?.();
       return;
     }
-    const timer = window.setTimeout(() => setActive((current) => current + 1), pause);
-    return () => window.clearTimeout(timer);
+    window.setTimeout(() => setActive((current) => current + 1), pause);
   };
+
+  if (!paragraphs.length) return null;
 
   return (
     <>
       {paragraphs.slice(0, active + 1).map((paragraph, index) => (
         <p key={index}>
-          <TypingText text={paragraph} speed={speed} onComplete={index === active ? handleComplete : undefined} />
+          <TypingText
+            text={paragraph}
+            speed={speed}
+            onComplete={index === active ? handleComplete : undefined}
+          />
         </p>
       ))}
       {finished ? <span className="typing-complete" aria-hidden="true">▌</span> : null}
@@ -213,6 +213,8 @@ export function AhsdGame() {
   const [history, setHistory] = useState<HistoryEntry[]>([]);
   const [ending, setEnding] = useState<Ending | null>(null);
   const [introReady, setIntroReady] = useState(false);
+  const [eventTextReady, setEventTextReady] = useState(false);
+  const [questionReady, setQuestionReady] = useState(false);
   const introScrollRef = useRef<HTMLDivElement>(null);
   const scene = scenes[sceneIndex];
   const plausibleCount = history.filter((entry) => entry.plausible).length;
@@ -221,6 +223,11 @@ export function AhsdGame() {
   // Each story moment uses its own numbered artwork (01 → 30).
   // The outcome keeps the same scene image instead of creating extra 01a/01b assets.
   const artworkBaseName = sceneNumber;
+
+  useEffect(() => {
+    setEventTextReady(false);
+    setQuestionReady(false);
+  }, [sceneIndex, phase]);
 
   const choose = (choice: Choice, choiceIndex: number) => {
     if (phase !== "event") return;
@@ -286,11 +293,38 @@ export function AhsdGame() {
               <div className="scene-image" role="img" aria-label={`Imagem ${artworkBaseName} da cena ${scene.id}`}><SceneArtwork key={artworkBaseName} baseName={artworkBaseName} title={scene.title} /><div className="image-number">IMG_{artworkBaseName.toUpperCase()}</div><div className="scene-title"><TypingText text={scene.title} speed={48} /></div></div>
             </div>
 
-            {phase === "event" && scene.id < 30 ? <section className="dialogue-panel"><div className="narrative">{scene.event.map((paragraph, index) => <p key={index}><TypingText text={paragraph} /></p>)}</div><div className="question"><span>O QUE ACONTECE AGORA?</span><strong><TypingText text={scene.question} /></strong></div><div className="choices">{scene.choices?.map((choice, index) => <button key={index} onClick={() => choose(choice, index)}><span>{String.fromCharCode(65 + index)}</span><TypingText text={choice.text} speed={28} /></button>)}</div></section> : null}
+            {phase === "event" && scene.id < 30 ? <section className="dialogue-panel">
+  <div className="narrative">
+    <SequentialTyping paragraphs={scene.event} speed={180} onFinished={() => setEventTextReady(true)} />
+  </div>
+  {eventTextReady ? <div className="question">
+    <span>O QUE ACONTECE AGORA?</span>
+    <strong><TypingText text={scene.question} speed={180} onComplete={() => setQuestionReady(true)} /></strong>
+  </div> : null}
+  {eventTextReady && questionReady ? <div className="choices">
+    {scene.choices?.map((choice, index) => <button key={index} onClick={() => choose(choice, index)}>
+      <span>{String.fromCharCode(65 + index)}</span><TypingText text={choice.text} speed={140} />
+    </button>)}
+  </div> : null}
+</section> : null}
 
             {phase === "outcome" && selected ? <section className="dialogue-panel outcome-panel"><div className="outcome-label">ENTRE CENAS // REGISTRO ATUALIZADO</div><p><TypingText text={selected.outcome} /></p><div className="delta-line"><TypingText text={deltaText(selected.deltas) || "Sem alteração imediata"} speed={30} /></div><button className="continue" onClick={nextScene}>AVANÇAR CERCA DE DOIS MESES →</button></section> : null}
 
-            {phase === "ending" ? <section className="dialogue-panel ending-panel"><div className="narrative">{scene.event.map((paragraph, index) => <p key={index}><TypingText text={paragraph} /></p>)}</div><div className="question"><span>ÚLTIMA ESCOLHA</span><strong><TypingText text={scene.question} /></strong></div><div className="choices endings">{endings.map((item, index) => <button key={item.id} onClick={() => chooseEnding(item)}><span>{String.fromCharCode(65 + index)}</span><div><b><TypingText text={item.title} speed={32} /></b><small><TypingText text={item.choice} speed={26} /></small></div></button>)}</div></section> : null}
+            {phase === "ending" ? <section className="dialogue-panel ending-panel">
+  <div className="narrative">
+    <SequentialTyping paragraphs={scene.event} speed={180} onFinished={() => setEventTextReady(true)} />
+  </div>
+  {eventTextReady ? <div className="question">
+    <span>ÚLTIMA ESCOLHA</span>
+    <strong><TypingText text={scene.question} speed={180} onComplete={() => setQuestionReady(true)} /></strong>
+  </div> : null}
+  {eventTextReady && questionReady ? <div className="choices endings">
+    {endings.map((item, index) => <button key={item.id} onClick={() => chooseEnding(item)}>
+      <span>{String.fromCharCode(65 + index)}</span>
+      <div><b><TypingText text={item.title} speed={140} /></b><small><TypingText text={item.choice} speed={140} /></small></div>
+    </button>)}
+  </div> : null}
+</section> : null}
 
             {phase === "result" && ending ? <section className="dialogue-panel result-panel"><div className="rank-card"><span>RANKING FINAL</span><strong>{rankGame(stats, plausibleCount).rank}</strong><small>{Math.round(rankGame(stats, plausibleCount).score)} pontos · {plausibleCount}/29 leituras plausíveis</small></div><div className="ending-copy"><h2><TypingText text={ending.title} /></h2>{ending.body.map((paragraph, index) => <p key={index}><TypingText text={paragraph} /></p>)}</div><div className="final-stats">{STAT_KEYS.map((key) => <span key={key}><i>{STAT_ICONS[key]}</i> {statLabels[key]} <b>{stats[key]}</b></span>)}</div><p className="ranking-note">O ranking mede a leitura do estado interno de Daniel e pune estados finais muito degradados.</p><button className="continue" onClick={restart}>JOGAR NOVAMENTE</button></section> : null}
           </>
