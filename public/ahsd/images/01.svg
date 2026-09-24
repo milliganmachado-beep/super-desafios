@@ -1,0 +1,27 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 540">
+<defs>
+<linearGradient id="bg" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#101827"/><stop offset="1" stop-color="#24364a"/></linearGradient>
+<linearGradient id="sky" x1="0" y1="0" x2="0" y2="1"><stop stop-color="#f2a66a"/><stop offset="1" stop-color="#263b59"/></linearGradient>
+</defs>
+<rect width="960" height="540" fill="url(#bg)"/>
+<rect x="610" width="350" height="300" fill="url(#sky)"/>
+<circle cx="835" cy="105" r="38" fill="#ffd58a"/>
+<path d="M610 265 L675 205 725 240 790 180 850 235 910 195 960 230 V300 H610Z" fill="#34465b"/>
+<rect x="80" y="355" width="500" height="28" rx="10" fill="#5d4538"/>
+<rect x="110" y="170" width="430" height="185" rx="22" fill="#182331"/>
+<rect x="130" y="190" width="390" height="135" rx="12" fill="#27384b"/>
+<rect x="155" y="208" width="340" height="90" rx="8" fill="#101923"/>
+<circle cx="325" cy="253" r="20" fill="#d2a679"/>
+<path d="M295 247 Q325 205 355 247 L360 282 H290Z" fill="#151b26"/>
+<rect x="260" y="297" width="130" height="55" rx="12" fill="#172231"/>
+<path d="M275 315 Q325 285 375 315 L392 365 H258Z" fill="#1b2533"/>
+<path d="M303 242 Q325 218 347 242" stroke="#151515" stroke-width="10" fill="none"/>
+<rect x="640" y="330" width="280" height="18" rx="9" fill="#8a6650"/>
+<rect x="675" y="348" width="20" height="110" fill="#5d4538"/><rect x="865" y="348" width="20" height="110" fill="#5d4538"/>
+<text x="40" y="55" fill="#fff" font-family="Arial" font-size="28" font-weight="700">SUPER DESAFIOS</text>
+<text x="40" y="92" fill="#ffd05a" font-family="Arial" font-size="18">CENA 01 / 30 — DANIEL</text>
+<rect x="38" y="400" width="884" height="105" rx="18" fill="#07101d" fill-opacity=".92" stroke="#4c8edb" stroke-width="2"/>
+<text x="65" y="432" fill="#fff" font-family="Arial" font-size="18">É 6h da manhã e o dia já começou. Daniel acorda com a mente cheia:</text>
+<text x="65" y="460" fill="#fff" font-family="Arial" font-size="18">provas, trabalhos, faculdade e aquela sensação de que o tempo não é suficiente.</text>
+<text x="65" y="489" fill="#ffd05a" font-family="Arial" font-size="20" font-weight="700">O que ele faz primeiro?</text>
+</svg>
