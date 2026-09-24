@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState, type RefObject } from "react";
 import { endings, routeLabels, scenes, statLabels, type Choice, type Ending, type StatKey } from "./story";
 import "./game.css";
 
@@ -68,7 +68,7 @@ function TypingText({ text, speed = 48, className = "", onComplete }: { text: st
   return <span className={className}>{text.slice(0, visible)}{visible < text.length ? <span className="typing-cursor">▌</span> : null}</span>;
 }
 
-function IntroTypingText({ text, speed = 12, onComplete, scrollRef }: { text: string; speed?: number; onComplete?: () => void; scrollRef: React.RefObject<HTMLDivElement | null> }) {
+function IntroTypingText({ text, speed = 12, onComplete, scrollRef }: { text: string; speed?: number; onComplete?: () => void; scrollRef: RefObject<HTMLDivElement | null> }) {
   const [visible, setVisible] = useState(0);
 
   useEffect(() => {
