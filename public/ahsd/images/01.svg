@@ -1,27 +1,48 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 540">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 540" role="img" aria-labelledby="title desc">
 <defs>
-<linearGradient id="bg" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#101827"/><stop offset="1" stop-color="#24364a"/></linearGradient>
-<linearGradient id="sky" x1="0" y1="0" x2="0" y2="1"><stop stop-color="#f2a66a"/><stop offset="1" stop-color="#263b59"/></linearGradient>
+  <linearGradient id="sky" x1="0" y1="0" x2="0" y2="1"><stop stop-color="#1b2940"/><stop offset="1" stop-color="#607b9d"/></linearGradient>
+  <linearGradient id="glass" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#273e5b"/><stop offset="1" stop-color="#102034"/></linearGradient>
+  <linearGradient id="floor" x1="0" y1="0" x2="0" y2="1"><stop stop-color="#111a28"/><stop offset="1" stop-color="#080c13"/></linearGradient>
+  <filter id="glow"><feGaussianBlur stdDeviation="7"/></filter>
 </defs>
-<rect width="960" height="540" fill="url(#bg)"/>
-<rect x="610" width="350" height="300" fill="url(#sky)"/>
-<circle cx="835" cy="105" r="38" fill="#ffd58a"/>
-<path d="M610 265 L675 205 725 240 790 180 850 235 910 195 960 230 V300 H610Z" fill="#34465b"/>
-<rect x="80" y="355" width="500" height="28" rx="10" fill="#5d4538"/>
-<rect x="110" y="170" width="430" height="185" rx="22" fill="#182331"/>
-<rect x="130" y="190" width="390" height="135" rx="12" fill="#27384b"/>
-<rect x="155" y="208" width="340" height="90" rx="8" fill="#101923"/>
-<circle cx="325" cy="253" r="20" fill="#d2a679"/>
-<path d="M295 247 Q325 205 355 247 L360 282 H290Z" fill="#151b26"/>
-<rect x="260" y="297" width="130" height="55" rx="12" fill="#172231"/>
-<path d="M275 315 Q325 285 375 315 L392 365 H258Z" fill="#1b2533"/>
-<path d="M303 242 Q325 218 347 242" stroke="#151515" stroke-width="10" fill="none"/>
-<rect x="640" y="330" width="280" height="18" rx="9" fill="#8a6650"/>
-<rect x="675" y="348" width="20" height="110" fill="#5d4538"/><rect x="865" y="348" width="20" height="110" fill="#5d4538"/>
-<text x="40" y="55" fill="#fff" font-family="Arial" font-size="28" font-weight="700">SUPER DESAFIOS</text>
-<text x="40" y="92" fill="#ffd05a" font-family="Arial" font-size="18">CENA 01 / 30 — DANIEL</text>
-<rect x="38" y="400" width="884" height="105" rx="18" fill="#07101d" fill-opacity=".92" stroke="#4c8edb" stroke-width="2"/>
-<text x="65" y="432" fill="#fff" font-family="Arial" font-size="18">É 6h da manhã e o dia já começou. Daniel acorda com a mente cheia:</text>
-<text x="65" y="460" fill="#fff" font-family="Arial" font-size="18">provas, trabalhos, faculdade e aquela sensação de que o tempo não é suficiente.</text>
-<text x="65" y="489" fill="#ffd05a" font-family="Arial" font-size="20" font-weight="700">O que ele faz primeiro?</text>
+<title id="title">Primeiro dia de Daniel na Engenharia de Produção</title>
+<desc id="desc">Daniel chega cedo à universidade, observa o prédio e uma mesa cheia de calouros.</desc>
+<rect width="960" height="540" fill="url(#sky)"/>
+<circle cx="800" cy="105" r="58" fill="#b9d2ee" opacity=".18" filter="url(#glow)"/>
+<rect y="310" width="960" height="230" fill="url(#floor)"/>
+<!-- university building -->
+<rect x="60" y="105" width="560" height="245" rx="8" fill="#d7dde5"/>
+<rect x="88" y="132" width="504" height="185" fill="#8e9eb0"/>
+<rect x="105" y="150" width="470" height="150" fill="url(#glass)"/>
+<g opacity=".7">
+  <path d="M105 185H575M105 220H575M105 255H575" stroke="#9ab1c9" stroke-width="3"/>
+  <path d="M160 150V300M215 150V300M270 150V300M325 150V300M380 150V300M435 150V300M490 150V300M545 150V300" stroke="#9ab1c9" stroke-width="3"/>
+</g>
+<rect x="235" y="275" width="215" height="42" fill="#182536"/>
+<text x="342" y="302" text-anchor="middle" fill="#e9f0f7" font-family="Arial,sans-serif" font-size="19" font-weight="700">ENGENHARIA</text>
+<!-- Daniel -->
+<ellipse cx="700" cy="433" rx="54" ry="12" fill="#000" opacity=".45"/>
+<path d="M664 328 Q700 294 736 328 L750 430 H650Z" fill="#273c58"/>
+<circle cx="700" cy="294" r="29" fill="#c99570"/>
+<path d="M671 291 Q680 254 709 257 Q733 260 735 291 Q718 273 672 285Z" fill="#111722"/>
+<path d="M680 327 L650 350 L670 368 L700 345 L730 368 L750 350 L720 327Z" fill="#1d2d44"/>
+<rect x="719" y="342" width="27" height="76" rx="10" fill="#354d69"/>
+<path d="M724 343 Q700 330 678 343" stroke="#5f7ea0" stroke-width="6" fill="none"/>
+<!-- table of freshmen -->
+<ellipse cx="520" cy="408" rx="165" ry="32" fill="#6d4d3d"/>
+<rect x="505" y="428" width="28" height="82" fill="#4b352d"/>
+<rect x="382" y="428" width="28" height="82" fill="#4b352d"/>
+<rect x="630" y="428" width="28" height="82" fill="#4b352d"/>
+<circle cx="448" cy="380" r="18" fill="#b77e5c"/>
+<circle cx="520" cy="373" r="18" fill="#d2a078"/>
+<circle cx="590" cy="381" r="18" fill="#9c6c50"/>
+<path d="M428 390 L468 390 L477 424 L420 424Z" fill="#536d8a"/>
+<path d="M500 383 L540 383 L548 424 L492 424Z" fill="#354b67"/>
+<path d="M570 391 L610 391 L618 424 L562 424Z" fill="#60755f"/>
+<!-- subtle iceberg motif -->
+<path d="M70 500 L130 456 L185 500Z" fill="#d8e7f2" opacity=".2"/>
+<path d="M105 476 L130 455 L155 476 L143 476 L130 491 L117 476Z" fill="#eef7ff" opacity=".25"/>
+<text x="40" y="48" fill="#f4f7fb" font-family="Arial,sans-serif" font-size="24" font-weight="800" letter-spacing="2">SUPER DESAFIOS</text>
+<text x="40" y="76" fill="#b9c8df" font-family="Arial,sans-serif" font-size="15" font-weight="700">CENA 01 / 30 · FEVEREIRO · ANO 1</text>
+<rect x="38" y="82" width="2" height="120" fill="#91a9ff" opacity=".7"/>
 </svg>
