@@ -37,21 +37,34 @@ function deltaText(deltas: Choice["deltas"]) {
 
 function TypingText({ text, speed = 48, className = "", onComplete }: { text: string; speed?: number; className?: string; onComplete?: () => void }) {
   const [visible, setVisible] = useState(0);
+
   useEffect(() => {
     setVisible(0);
+    if (!text) {
+      onComplete?.();
+      return;
+    }
+    let cancelled = false;
     let timer = 0;
-    const tick = () => {
-      setVisible((current) => {
-        if (current >= text.length) { onComplete?.(); return current; }
-        const nextChar = text[current];
-        const punctuationPause = /[.!?]/.test(nextChar) ? 260 : /[,;:]/.test(nextChar) ? 120 : 0;
-        timer = window.setTimeout(tick, speed + punctuationPause);
-        return current + 1;
-      });
+    const tick = (index: number) => {
+      if (cancelled) return;
+      setVisible(index);
+      if (index >= text.length) return;
+      const nextChar = text[index];
+      const punctuationPause = /[.!?]/.test(nextChar) ? 260 : /[,;:]/.test(nextChar) ? 120 : 0;
+      timer = window.setTimeout(() => tick(index + 1), speed + punctuationPause);
     };
-    timer = window.setTimeout(tick, speed);
-    return () => window.clearTimeout(timer);
+    timer = window.setTimeout(() => tick(1), speed);
+    return () => {
+      cancelled = true;
+      window.clearTimeout(timer);
+    };
   }, [text, speed]);
+
+  useEffect(() => {
+    if (visible >= text.length) onComplete?.();
+  }, [visible, text.length]);
+
   return <span className={className}>{text.slice(0, visible)}{visible < text.length ? <span className="typing-cursor">▌</span> : null}</span>;
 }
 
@@ -64,13 +77,24 @@ function SequentialTyping({ paragraphs, speed = 48, pause = 850, onFinished }: {
     setFinished(false);
   }, [paragraphs]);
 
+  useEffect(() => {
+    if (!paragraphs.length) {
+      setFinished(true);
+      onFinished?.();
+      return;
+    }
+    if (active >= paragraphs.length - 1) return;
+    // The active paragraph completes naturally; advance after its typing finishes.
+  }, [active, paragraphs.length, onFinished]);
+
   const handleComplete = () => {
     if (active >= paragraphs.length - 1) {
       setFinished(true);
       onFinished?.();
       return;
     }
-    window.setTimeout(() => setActive((current) => current + 1), pause);
+    const timer = window.setTimeout(() => setActive((current) => current + 1), pause);
+    return () => window.clearTimeout(timer);
   };
 
   return (
