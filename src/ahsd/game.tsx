@@ -35,7 +35,7 @@ function deltaText(deltas: Choice["deltas"]) {
   return STAT_KEYS.filter((key) => deltas[key]).map((key) => `${statLabels[key]} ${(deltas[key] ?? 0) > 0 ? "+" : ""}${deltas[key]}`).join(" · ");
 }
 
-function TypingText({ text, speed = 48, className = "", onComplete }: { text: string; speed?: number; className?: string; onComplete?: () => void }) {
+function TypingText({ text, speed = 68, className = "", onComplete }: { text: string; speed?: number; className?: string; onComplete?: () => void }) {
   const [visible, setVisible] = useState(0);
   const onCompleteRef = useRef(onComplete);
 
@@ -252,7 +252,7 @@ export function AhsdGame() {
         ) : (
           <>
             <header className="vn-topbar">
-              <div><div className="vn-kicker">CINCO ANOS ABAIXO DA SUPERFÍCIE</div><div className="vn-date"><TypingText text={`${scene.date} · ${scene.age}`} speed={18} /></div></div>
+              <div><div className="vn-kicker">CINCO ANOS ABAIXO DA SUPERFÍCIE</div><div className="vn-date"><TypingText text={`${scene.date} · ${scene.age}`} speed={30} /></div></div>
               <div className="vn-progress-wrap" aria-label={`Cena ${scene.id} de 30`}><span>{sceneNumber} / 30</span><div className="vn-progress"><i style={{ width: `${progress}%` }} /></div></div>
             </header>
 
@@ -264,14 +264,14 @@ export function AhsdGame() {
                 </div>
                 <div className="routes"><span>HISTÓRIAS EM CENA</span><div>{scene.routes.map((route) => <em key={route}>{routeLabels[route]}</em>)}</div></div>
               </aside>
-              <div className="scene-image" role="img" aria-label={`Imagem ${artworkBaseName} da cena ${scene.id}`}><SceneArtwork key={artworkBaseName} baseName={artworkBaseName} title={scene.title} /><div className="image-number">IMG_{artworkBaseName.toUpperCase()}</div><div className="scene-title"><TypingText text={scene.title} speed={35} /></div></div>
+              <div className="scene-image" role="img" aria-label={`Imagem ${artworkBaseName} da cena ${scene.id}`}><SceneArtwork key={artworkBaseName} baseName={artworkBaseName} title={scene.title} /><div className="image-number">IMG_{artworkBaseName.toUpperCase()}</div><div className="scene-title"><TypingText text={scene.title} speed={48} /></div></div>
             </div>
 
-            {phase === "event" && scene.id < 30 ? <section className="dialogue-panel"><div className="narrative">{scene.event.map((paragraph, index) => <p key={index}><TypingText text={paragraph} /></p>)}</div><div className="question"><span>O QUE ACONTECE AGORA?</span><strong><TypingText text={scene.question} /></strong></div><div className="choices">{scene.choices?.map((choice, index) => <button key={index} onClick={() => choose(choice, index)}><span>{String.fromCharCode(65 + index)}</span><TypingText text={choice.text} speed={12} /></button>)}</div></section> : null}
+            {phase === "event" && scene.id < 30 ? <section className="dialogue-panel"><div className="narrative">{scene.event.map((paragraph, index) => <p key={index}><TypingText text={paragraph} /></p>)}</div><div className="question"><span>O QUE ACONTECE AGORA?</span><strong><TypingText text={scene.question} /></strong></div><div className="choices">{scene.choices?.map((choice, index) => <button key={index} onClick={() => choose(choice, index)}><span>{String.fromCharCode(65 + index)}</span><TypingText text={choice.text} speed={28} /></button>)}</div></section> : null}
 
-            {phase === "outcome" && selected ? <section className="dialogue-panel outcome-panel"><div className="outcome-label">ENTRE CENAS // REGISTRO ATUALIZADO</div><p><TypingText text={selected.outcome} /></p><div className="delta-line"><TypingText text={deltaText(selected.deltas) || "Sem alteração imediata"} speed={18} /></div><button className="continue" onClick={nextScene}>AVANÇAR CERCA DE DOIS MESES →</button></section> : null}
+            {phase === "outcome" && selected ? <section className="dialogue-panel outcome-panel"><div className="outcome-label">ENTRE CENAS // REGISTRO ATUALIZADO</div><p><TypingText text={selected.outcome} /></p><div className="delta-line"><TypingText text={deltaText(selected.deltas) || "Sem alteração imediata"} speed={30} /></div><button className="continue" onClick={nextScene}>AVANÇAR CERCA DE DOIS MESES →</button></section> : null}
 
-            {phase === "ending" ? <section className="dialogue-panel ending-panel"><div className="narrative">{scene.event.map((paragraph, index) => <p key={index}><TypingText text={paragraph} /></p>)}</div><div className="question"><span>ÚLTIMA ESCOLHA</span><strong><TypingText text={scene.question} /></strong></div><div className="choices endings">{endings.map((item, index) => <button key={item.id} onClick={() => chooseEnding(item)}><span>{String.fromCharCode(65 + index)}</span><div><b><TypingText text={item.title} speed={20} /></b><small><TypingText text={item.choice} speed={10} /></small></div></button>)}</div></section> : null}
+            {phase === "ending" ? <section className="dialogue-panel ending-panel"><div className="narrative">{scene.event.map((paragraph, index) => <p key={index}><TypingText text={paragraph} /></p>)}</div><div className="question"><span>ÚLTIMA ESCOLHA</span><strong><TypingText text={scene.question} /></strong></div><div className="choices endings">{endings.map((item, index) => <button key={item.id} onClick={() => chooseEnding(item)}><span>{String.fromCharCode(65 + index)}</span><div><b><TypingText text={item.title} speed={32} /></b><small><TypingText text={item.choice} speed={26} /></small></div></button>)}</div></section> : null}
 
             {phase === "result" && ending ? <section className="dialogue-panel result-panel"><div className="rank-card"><span>RANKING FINAL</span><strong>{rankGame(stats, plausibleCount).rank}</strong><small>{Math.round(rankGame(stats, plausibleCount).score)} pontos · {plausibleCount}/29 leituras plausíveis</small></div><div className="ending-copy"><h2><TypingText text={ending.title} /></h2>{ending.body.map((paragraph, index) => <p key={index}><TypingText text={paragraph} /></p>)}</div><div className="final-stats">{STAT_KEYS.map((key) => <span key={key}><i>{STAT_ICONS[key]}</i> {statLabels[key]} <b>{stats[key]}</b></span>)}</div><p className="ranking-note">O ranking mede a leitura do estado interno de Daniel e pune estados finais muito degradados.</p><button className="continue" onClick={restart}>JOGAR NOVAMENTE</button></section> : null}
           </>
