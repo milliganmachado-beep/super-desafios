@@ -37,33 +37,39 @@ function deltaText(deltas: Choice["deltas"]) {
 
 function TypingText({ text, speed = 48, className = "", onComplete }: { text: string; speed?: number; className?: string; onComplete?: () => void }) {
   const [visible, setVisible] = useState(0);
+  const onCompleteRef = useRef(onComplete);
+
+  useEffect(() => {
+    onCompleteRef.current = onComplete;
+  }, [onComplete]);
 
   useEffect(() => {
     setVisible(0);
     if (!text) {
-      onComplete?.();
+      onCompleteRef.current?.();
       return;
     }
     let cancelled = false;
     let timer = 0;
+
     const tick = (index: number) => {
       if (cancelled) return;
       setVisible(index);
-      if (index >= text.length) return;
+      if (index >= text.length) {
+        onCompleteRef.current?.();
+        return;
+      }
       const nextChar = text[index];
       const punctuationPause = /[.!?]/.test(nextChar) ? 260 : /[,;:]/.test(nextChar) ? 120 : 0;
       timer = window.setTimeout(() => tick(index + 1), speed + punctuationPause);
     };
+
     timer = window.setTimeout(() => tick(1), speed);
     return () => {
       cancelled = true;
       window.clearTimeout(timer);
     };
   }, [text, speed]);
-
-  useEffect(() => {
-    if (visible >= text.length) onComplete?.();
-  }, [visible, text.length, onComplete]);
 
   return <span className={className}>{text.slice(0, visible)}{visible < text.length ? <span className="typing-cursor">▌</span> : null}</span>;
 }
