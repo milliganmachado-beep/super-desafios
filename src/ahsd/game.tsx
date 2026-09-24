@@ -35,8 +35,8 @@ function deltaText(deltas: Choice["deltas"]) {
   return STAT_KEYS.filter((key) => deltas[key]).map((key) => `${statLabels[key]} ${(deltas[key] ?? 0) > 0 ? "+" : ""}${deltas[key]}`).join(" · ");
 }
 
-function TypingText({ text, speed = 180, className = "", onComplete }: { text: string; speed?: number; className?: string; onComplete?: () => void }) {
-  const [visibleWords, setVisibleWords] = useState(0);
+function TypingText({ text, speed = 32, className = "", onComplete }: { text: string; speed?: number; className?: string; onComplete?: () => void }) {
+  const [visible, setVisible] = useState(0);
   const onCompleteRef = useRef(onComplete);
 
   useEffect(() => {
@@ -44,10 +44,9 @@ function TypingText({ text, speed = 180, className = "", onComplete }: { text: s
   }, [onComplete]);
 
   useEffect(() => {
-    const words = text.match(/\S+\s*/g) ?? [];
-    setVisibleWords(0);
+    setVisible(0);
 
-    if (!words.length) {
+    if (!text) {
       onCompleteRef.current?.();
       return;
     }
@@ -57,18 +56,19 @@ function TypingText({ text, speed = 180, className = "", onComplete }: { text: s
 
     const tick = (index: number) => {
       if (cancelled) return;
-      setVisibleWords(index);
 
-      if (index >= words.length) {
+      setVisible(index);
+
+      if (index >= text.length) {
         onCompleteRef.current?.();
         return;
       }
 
-      const previousWord = words[index - 1] ?? "";
-      const punctuationPause = /[.!?]\\s*$/.test(previousWord)
-        ? 420
-        : /[,;:]\\s*$/.test(previousWord)
-          ? 220
+      const currentChar = text[index];
+      const punctuationPause = /[.!?]/.test(currentChar)
+        ? 260
+        : /[,;:]/.test(currentChar)
+          ? 110
           : 0;
 
       timer = window.setTimeout(() => tick(index + 1), speed + punctuationPause);
@@ -82,13 +82,10 @@ function TypingText({ text, speed = 180, className = "", onComplete }: { text: s
     };
   }, [text, speed]);
 
-  const words = text.match(/\S+\s*/g) ?? [];
-  const visibleText = words.slice(0, visibleWords).join("");
-
   return (
     <span className={className}>
-      {visibleText}
-      {visibleWords < words.length ? <span className="typing-cursor">▌</span> : null}
+      {text.slice(0, visible)}
+      {visible < text.length ? <span className="typing-cursor">▌</span> : null}
     </span>
   );
 }
@@ -290,20 +287,20 @@ export function AhsdGame() {
                 </div>
                 <div className="routes"><span>HISTÓRIAS EM CENA</span><div>{scene.routes.map((route) => <em key={route}>{routeLabels[route]}</em>)}</div></div>
               </aside>
-              <div className="scene-image" role="img" aria-label={`Imagem ${artworkBaseName} da cena ${scene.id}`}><SceneArtwork key={artworkBaseName} baseName={artworkBaseName} title={scene.title} /><div className="image-number">IMG_{artworkBaseName.toUpperCase()}</div><div className="scene-title"><TypingText text={scene.title} speed={48} /></div></div>
+              <div className="scene-image" role="img" aria-label={`Imagem ${artworkBaseName} da cena ${scene.id}`}><SceneArtwork key={artworkBaseName} baseName={artworkBaseName} title={scene.title} /><div className="image-number">IMG_{artworkBaseName.toUpperCase()}</div><div className="scene-title"><TypingText text={scene.title} speed={40} /></div></div>
             </div>
 
             {phase === "event" && scene.id < 30 ? <section className="dialogue-panel">
   <div className="narrative">
-    <SequentialTyping paragraphs={scene.event} speed={180} onFinished={() => setEventTextReady(true)} />
+    <SequentialTyping paragraphs={scene.event} speed={32} onFinished={() => setEventTextReady(true)} />
   </div>
   {eventTextReady ? <div className="question">
     <span>O QUE ACONTECE AGORA?</span>
-    <strong><TypingText text={scene.question} speed={180} onComplete={() => setQuestionReady(true)} /></strong>
+    <strong><TypingText text={scene.question} speed={32} onComplete={() => setQuestionReady(true)} /></strong>
   </div> : null}
   {eventTextReady && questionReady ? <div className="choices">
     {scene.choices?.map((choice, index) => <button key={index} onClick={() => choose(choice, index)}>
-      <span>{String.fromCharCode(65 + index)}</span><TypingText text={choice.text} speed={140} />
+      <span>{String.fromCharCode(65 + index)}</span><TypingText text={choice.text} speed={30} />
     </button>)}
   </div> : null}
 </section> : null}
