@@ -27,7 +27,7 @@ body { overflow: hidden; }
   padding: clamp(20px, 4vh, 52px) clamp(20px, 5vw, 72px);
   justify-content: center;
 }
-.intro-copy { max-height: 49vh; overflow: hidden; }
+.intro-copy { max-height: none; overflow: visible; white-space: pre-line; }
 .intro-copy p { margin-bottom: 9px; }
 .vn-topbar { flex: 0 0 auto; padding: 4px 2px 9px; }
 .vn-visual-row {
@@ -121,9 +121,9 @@ body { overflow: hidden; }
   .choices button { padding: 5px 6px; font-size: 10px; line-height: 1.15; }
   .choices button>span { min-width: 18px; }
   .intro-screen { padding: 18px 16px; }
-  .intro-screen h1 { font-size: clamp(30px, 10vw, 50px); }
+  .intro-screen h1 { font-size: clamp(28px, 9vw, 46px); }
   .intro-line { margin: 15px 0; }
-  .intro-copy { max-height: 54vh; font-size: 13px; line-height: 1.35; }
+  .intro-copy { max-height: none; font-size: 13px; line-height: 1.35; white-space: pre-line; }
   .intro-copy p { margin-bottom: 7px; }
   .intro-start { margin-top: 10px; padding: 9px 12px; font-size: 11px; }
   .intro-hint { margin-top: 7px; font-size: 8px; }
@@ -137,7 +137,7 @@ body { overscroll-behavior: none; }
 .ahsd-game { width: 100%; height: 100dvh; min-height: 0; max-height: 100dvh; overflow: hidden; box-sizing: border-box; }
 .vn-stage { width: 100%; height: 100%; min-height: 0; max-height: 100%; overflow: hidden; }
 .intro-screen { min-height: 0; max-height: 100%; overflow: hidden; }
-.intro-copy { flex: 0 1 auto; max-height: 42vh; overflow: hidden; }
+.intro-copy { flex: 0 1 auto; max-height: none; overflow: visible; white-space: pre-line; }
 .vn-visual-row { flex: 0 0 min(34vh, 300px); min-height: 0; overflow: hidden; }
 .dialogue-panel { flex: 1 1 0; min-height: 0; max-height: none; overflow: hidden; }
 @media (max-height: 720px) and (min-width: 761px) {
