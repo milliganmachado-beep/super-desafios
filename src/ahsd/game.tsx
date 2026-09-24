@@ -118,8 +118,9 @@ export function AhsdGame() {
   const plausibleCount = history.filter((entry) => entry.plausible).length;
   const progress = ((sceneIndex + (phase === "outcome" ? 0.5 : 0)) / scenes.length) * 100;
   const sceneNumber = String(scene.id).padStart(2, "0");
-  const subsceneSuffix = selectedChoiceIndex === null ? "" : String.fromCharCode(97 + selectedChoiceIndex);
-  const artworkBaseName = phase === "outcome" ? `${sceneNumber}${subsceneSuffix}` : sceneNumber;
+  // Each story moment uses its own numbered artwork (01 → 30).
+  // The outcome keeps the same scene image instead of creating extra 01a/01b assets.
+  const artworkBaseName = sceneNumber;
 
   const choose = (choice: Choice, choiceIndex: number) => {
     if (phase !== "event") return;
