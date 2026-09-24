@@ -44,7 +44,7 @@ function TypingText({ text, speed = 180, className = "", onComplete }: { text: s
   }, [onComplete]);
 
   useEffect(() => {
-    const words = text.match(/\\S+\\s*/g) ?? [];
+    const words = text.match(/\S+\s*/g) ?? [];
     setVisibleWords(0);
 
     if (!words.length) {
@@ -82,7 +82,7 @@ function TypingText({ text, speed = 180, className = "", onComplete }: { text: s
     };
   }, [text, speed]);
 
-  const words = text.match(/\\S+\\s*/g) ?? [];
+  const words = text.match(/\S+\s*/g) ?? [];
   const visibleText = words.slice(0, visibleWords).join("");
 
   return (
