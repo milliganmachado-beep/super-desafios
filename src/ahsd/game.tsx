@@ -63,7 +63,7 @@ function TypingText({ text, speed = 48, className = "", onComplete }: { text: st
 
   useEffect(() => {
     if (visible >= text.length) onComplete?.();
-  }, [visible, text.length, scrollRef, onComplete]);
+  }, [visible, text.length, onComplete]);
 
   return <span className={className}>{text.slice(0, visible)}{visible < text.length ? <span className="typing-cursor">▌</span> : null}</span>;
 }
