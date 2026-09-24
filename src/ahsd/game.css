@@ -27,7 +27,7 @@ body { overflow: hidden; }
   padding: clamp(20px, 4vh, 52px) clamp(20px, 5vw, 72px);
   justify-content: center;
 }
-.intro-copy { max-height: none; overflow: visible; white-space: pre-line; }
+.intro-copy { max-height: 42vh; overflow-y: auto; overflow-x: hidden; white-space: pre-line; scrollbar-width: thin; }
 .intro-copy p { margin-bottom: 9px; }
 .vn-topbar { flex: 0 0 auto; padding: 4px 2px 9px; }
 .vn-visual-row {
@@ -123,7 +123,7 @@ body { overflow: hidden; }
   .intro-screen { padding: 18px 16px; }
   .intro-screen h1 { font-size: clamp(28px, 9vw, 46px); }
   .intro-line { margin: 15px 0; }
-  .intro-copy { max-height: none; font-size: 13px; line-height: 1.35; white-space: pre-line; }
+  .intro-copy { max-height: 48vh; font-size: 13px; line-height: 1.35; white-space: pre-line; overflow-y: auto; overflow-x: hidden; scrollbar-width: thin; }
   .intro-copy p { margin-bottom: 7px; }
   .intro-start { margin-top: 10px; padding: 9px 12px; font-size: 11px; }
   .intro-hint { margin-top: 7px; font-size: 8px; }
