@@ -111,12 +111,9 @@ function SequentialTyping({ paragraphs, speed = 48, pause = 850, onFinished }: {
 
 const INTRO_TEXT = [
   "18 ANOS. PRIMEIRO DIA DE ENGENHARIA DE PRODUÇÃO.",
-  "Para quem olha de fora, Daniel parece ter começado como tantos outros estudantes. Uma matrícula nova, um prédio desconhecido, nomes que ainda não significam nada.",
-  "Mas há uma diferença que não aparece na primeira impressão: Daniel tem AHSD — altas habilidades/superdotação. Ele aprende rápido, percebe padrões, mergulha profundamente no que desperta seu interesse e constrói conexões com uma velocidade que nem sempre encontra espaço na rotina.",
-  "O problema é que capacidade não explica tudo. Uma aula simples pode se tornar frustrante. Uma conversa pode continuar na cabeça muito depois de terminar. Uma escolha pequena pode abrir possibilidades demais.",
-  "E existe o peso que fica abaixo da superfície: esforço, sobrecarga, sensibilidade, isolamento, cobrança e a dificuldade de transformar potencial em uma vida que também seja sustentável.",
-  "É por isso que esta história começa como um iceberg. O que aparece é só uma parte. Durante cinco anos, 30 momentos vão revelar o que acontece abaixo dela — e como cada decisão pode alterar o que vem depois.",
-  "Não existe uma resposta perfeita. Existe contexto, consequência e o que Daniel consegue sustentar ao longo do caminho.",
+  "Daniel chega à universidade como qualquer calouro: prédio novo, pessoas novas e um caminho que ainda não conhece.",
+  "Mas existe algo que não aparece de imediato: Daniel tem AHSD — altas habilidades/superdotação. Aprende rápido, percebe padrões e mergulha profundamente no que desperta seu interesse. Isso também pode trazer sobrecarga, cobrança, sensibilidade e a sensação de que nem sempre há espaço para acompanhar o próprio ritmo.",
+  "Esta história começa como um iceberg: o que aparece é só uma parte. Ao longo de cinco anos e 30 momentos, escolhas, contexto e consequências vão revelar o que existe abaixo da superfície. Não há uma resposta perfeita — há o que Daniel consegue sustentar.",
 ];
 
 function SceneArtwork({ baseName, title }: { baseName: string; title: string }) {
@@ -187,7 +184,7 @@ export function AhsdGame() {
             <h1>CINCO ANOS<br /><span>ABAIXO DA SUPERFÍCIE</span></h1>
             <div className="intro-line" />
             <div className="intro-copy">
-              <SequentialTyping paragraphs={INTRO_TEXT} speed={48} pause={900} onFinished={() => setIntroReady(true)} />
+              <SequentialTyping paragraphs={INTRO_TEXT} speed={34} pause={650} onFinished={() => setIntroReady(true)} />
             </div>
             <button className="intro-start" disabled={!introReady} onClick={() => setPhase("event")}><span>▶</span> {introReady ? "ENTRAR NA HISTÓRIA" : "LENDO..."}</button>
             <div className="intro-hint">Uma vida. 30 momentos. Nenhuma escolha existe sozinha.</div>
