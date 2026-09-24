@@ -169,3 +169,41 @@ body { overscroll-behavior: none; }
   .intro-scroll { padding-bottom: 24px; }
   .intro-copy { max-height: none; }
 }
+
+
+/* === TEXTO MAIOR + MÁQUINA DE ESCREVER === */
+.narrative {
+  font-size: 18px;
+  line-height: 1.48;
+}
+.question strong {
+  font-size: 21px;
+  line-height: 1.4;
+}
+.choices button {
+  font-size: 15px;
+  line-height: 1.35;
+  padding: 10px 12px;
+}
+.ending-panel small {
+  font-size: 14px;
+}
+
+@media (max-width: 760px) {
+  .narrative {
+    font-size: 15px;
+    line-height: 1.35;
+  }
+  .question strong {
+    font-size: 16px;
+    line-height: 1.3;
+  }
+  .choices button {
+    font-size: 13px;
+    line-height: 1.25;
+    padding: 7px 8px;
+  }
+  .ending-panel small {
+    font-size: 12px;
+  }
+}
