@@ -23,3 +23,5 @@ As quatro consequências de cada cena usam as letras `a`, `b`, `c` e `d`, na mes
 O jogo procura automaticamente nesta ordem: `.webp`, `.png`, `.jpg`, `.jpeg`.
 
 Se a imagem tiver proporção diferente da área visual, ela é recortada pelo centro (`object-fit: cover`) em vez de ser distorcida.
+
+<!-- redeploy trigger -->
