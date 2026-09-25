@@ -59,8 +59,8 @@ body { overflow: hidden; }
   overflow: hidden;
 }
 .narrative {
-  max-height: 27%;
-  overflow: hidden;
+  max-height: none;
+  overflow: visible;
   font-size: 15px;
   line-height: 1.35;
 }
@@ -112,7 +112,7 @@ body { overflow: hidden; }
   .routes>span { font-size: 7px; }
   .routes em { font-size: 7px; margin-top: 2px; }
   .dialogue-panel { margin-top: 6px; padding: 7px 9px; }
-  .narrative { font-size: 12px; line-height: 1.25; max-height: 22%; }
+  .narrative { font-size: 12px; line-height: 1.25; max-height: none; overflow: visible; }
   .narrative p { margin-bottom: 3px; }
   .question { margin: 5px 0; padding-left: 7px; }
   .question span { font-size: 7px; }
@@ -139,14 +139,14 @@ body { overscroll-behavior: none; }
 .intro-screen { min-height: 0; max-height: 100%; overflow: hidden; }
 .intro-copy { flex: 0 1 auto; max-height: none; overflow: visible; white-space: pre-line; }
 .vn-visual-row { flex: 0 0 min(34vh, 300px); min-height: 0; overflow: hidden; }
-.dialogue-panel { flex: 1 1 0; min-height: 0; max-height: none; overflow: hidden; }
+.dialogue-panel { flex: 1 1 0; min-height: 0; max-height: none; overflow-y: auto; overflow-x: hidden; }
 @media (max-height: 720px) and (min-width: 761px) {
   .vn-visual-row { flex-basis: 29vh; }
 }
 @media (max-width: 760px) {
   .vn-visual-row { flex-basis: 31vh; min-height: 0; }
   .intro-copy { max-height: 48vh; }
-  .dialogue-panel { min-height: 0; overflow: hidden; }
+  .dialogue-panel { min-height: 0; overflow-y: auto; overflow-x: hidden; }
 }
 
 
