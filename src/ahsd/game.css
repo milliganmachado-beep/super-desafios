@@ -301,3 +301,23 @@ body { overscroll-behavior: none; }
     font-size: 10px;
   }
 }
+
+
+/* === CENA 2: MAIS RESPIRO ENTRE OS BLOCOS DE TEXTO === */
+.scene-2 .narrative {
+  line-height: 1.62;
+}
+.scene-2 .narrative p {
+  margin-bottom: 18px;
+}
+.scene-2 .narrative p:last-child {
+  margin-bottom: 0;
+}
+@media (max-width: 760px) {
+  .scene-2 .narrative {
+    line-height: 1.48;
+  }
+  .scene-2 .narrative p {
+    margin-bottom: 11px;
+  }
+}
