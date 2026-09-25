@@ -65,7 +65,7 @@ body { overflow: hidden; }
   line-height: 1.35;
 }
 .narrative p { margin: 0 0 6px; }
-.question { margin: 8px 0 8px; }
+.question { margin: 22px 0 14px; }
 .question strong { font-size: 17px; }
 .choices { display: grid; grid-template-columns: 1fr 1fr; gap: 5px; }
 .choices button { padding: 7px 9px; font-size: 12px; min-height: 0; }
