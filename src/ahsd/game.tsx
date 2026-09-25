@@ -410,7 +410,7 @@ export function AhsdGame() {
               <div className="scene-image" role="img" aria-label={`Imagem ${artworkBaseName} da cena ${scene.id}`}><SceneArtwork key={artworkBaseName} baseName={artworkBaseName} title={scene.title} /><div className="image-number">IMG_{artworkBaseName.toUpperCase()}</div><div className="scene-title"><TypingText text={scene.title} speed={40} /></div></div>
             </div>
 
-            {phase === "event" && scene.id < 30 ? <section className="dialogue-panel">
+            {phase === "event" && scene.id < 30 ? <section className={`dialogue-panel scene-dialogue scene-${scene.id}`}>
   <div className="narrative">
     <SequentialTyping paragraphs={scene.event} speed={32} onFinished={() => setEventTextReady(true)} />
   </div>
