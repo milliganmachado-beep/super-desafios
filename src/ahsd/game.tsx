@@ -192,11 +192,15 @@ const INTRO_TEXT = [
 ];
 
 function SceneArtwork({ baseName, title }: { baseName: string; title: string }) {
-  const [extensionIndex, setExtensionIndex] = useState(0);
+  const [assetIndex, setAssetIndex] = useState(0);
   const [missing, setMissing] = useState(false);
-  const extension = IMAGE_EXTENSIONS[extensionIndex];
-  const src = `${import.meta.env.BASE_URL}ahsd/images/${baseName}.${extension}`;
-  const tryNext = () => extensionIndex < IMAGE_EXTENSIONS.length - 1 ? setExtensionIndex((current) => current + 1) : setMissing(true);
+  const baseNames = baseName.startsWith("0") ? [baseName, String(Number(baseName))] : [baseName];
+  const candidates = baseNames.flatMap((name) => IMAGE_EXTENSIONS.map((extension) => ({ name, extension })));
+  const asset = candidates[assetIndex];
+  const src = `${import.meta.env.BASE_URL}ahsd/images/${asset.name}.${asset.extension}`;
+  const tryNext = () => assetIndex < candidates.length - 1
+    ? setAssetIndex((current) => current + 1)
+    : setMissing(true);
   if (missing) return <div className="image-placeholder">IMAGEM {baseName.toUpperCase()}</div>;
   return <img key={src} className="scene-artwork" src={src} alt={title} onError={tryNext} />;
 }
