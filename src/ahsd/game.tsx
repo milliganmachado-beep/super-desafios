@@ -94,55 +94,87 @@ function TypingText({ text, speed = 32, className = "", onComplete }: { text: st
   );
 }
 
-function IntroTypingText({ text, speed = 12, onComplete, scrollRef }: { text: string; speed?: number; onComplete?: () => void; scrollRef: RefObject<HTMLDivElement | null> }) {
+function IntroTypingText({ text, speed = 62, pause = 1800, onComplete, scrollRef }: { text: string; speed?: number; pause?: number; onComplete?: () => void; scrollRef: RefObject<HTMLDivElement | null> }) {
+  const paragraphs = text.split("\n\n");
+  const [activeParagraph, setActiveParagraph] = useState(0);
   const [visible, setVisible] = useState(0);
+  const onCompleteRef = useRef(onComplete);
 
   useEffect(() => {
+    onCompleteRef.current = onComplete;
+  }, [onComplete]);
+
+  useEffect(() => {
+    setActiveParagraph(0);
     setVisible(0);
-    if (!text) {
-      onComplete?.();
+
+    if (!paragraphs.length || !paragraphs[0]) {
+      onCompleteRef.current?.();
       return;
     }
+
     let cancelled = false;
     let timer = 0;
 
-    const tick = (index: number) => {
+    const typeParagraph = (paragraphIndex: number, charIndex: number) => {
       if (cancelled) return;
-      setVisible(index);
-      if (index >= text.length) return;
-      timer = window.setTimeout(() => tick(index + 1), speed);
+
+      setActiveParagraph(paragraphIndex);
+      setVisible(charIndex);
+
+      const paragraph = paragraphs[paragraphIndex];
+
+      if (charIndex >= paragraph.length) {
+        if (paragraphIndex >= paragraphs.length - 1) {
+          window.setTimeout(() => {
+            if (!cancelled) onCompleteRef.current?.();
+          }, 700);
+          return;
+        }
+
+        // Pausa real entre os blocos da introdução para dar tempo de ler a frase concluída.
+        timer = window.setTimeout(() => {
+          if (!cancelled) typeParagraph(paragraphIndex + 1, 0);
+        }, pause);
+        return;
+      }
+
+      const currentChar = paragraph[charIndex];
+      const punctuationPause = /[.!?]/.test(currentChar)
+        ? 180
+        : /[,;:]/.test(currentChar)
+          ? 80
+          : 0;
+
+      timer = window.setTimeout(() => typeParagraph(paragraphIndex, charIndex + 1), speed + punctuationPause);
     };
 
-    timer = window.setTimeout(() => tick(1), speed);
+    timer = window.setTimeout(() => typeParagraph(0, 1), speed);
+
     return () => {
       cancelled = true;
       window.clearTimeout(timer);
     };
-  }, [text, speed]);
+  }, [text, speed, pause]);
 
   useEffect(() => {
     const container = scrollRef.current;
     if (container) {
       container.scrollTo({
         top: container.scrollHeight,
-        behavior: visible >= text.length ? "smooth" : "auto",
+        behavior: "auto",
       });
     }
-    if (visible >= text.length) {
-      requestAnimationFrame(() => {
-        const finalContainer = scrollRef.current;
-        if (finalContainer) {
-          finalContainer.scrollTo({ top: finalContainer.scrollHeight, behavior: "smooth" });
-        }
-        onComplete?.();
-      });
-    }
-  }, [visible, text.length]);
+  }, [activeParagraph, visible, scrollRef]);
 
   return (
     <div className="intro-copy">
-      <span>{text.slice(0, visible)}</span>
-      {visible < text.length ? <span className="typing-cursor">▌</span> : null}
+      {paragraphs.slice(0, activeParagraph + 1).map((paragraph, index) => (
+        <span key={index} style={{ display: "block", marginBottom: index < paragraphs.length - 1 ? "1.15em" : undefined }}>
+          {paragraph.slice(0, index === activeParagraph ? visible : paragraph.length)}
+          {index === activeParagraph && visible < paragraph.length ? <span className="typing-cursor">▌</span> : null}
+        </span>
+      ))}
     </div>
   );
 }
@@ -355,7 +387,7 @@ export function AhsdGame() {
             <div className="intro-eyebrow">SUPER DESAFIOS · AHSD // PROTOCOLO 01</div>
             <h1>CINCO ANOS<br /><span>ABAIXO DA SUPERFÍCIE</span></h1>
             <div className="intro-line" />
-            <IntroTypingText text={INTRO_TEXT.join("\n\n")} speed={42} scrollRef={introScrollRef} onComplete={() => setIntroReady(true)} />
+            <IntroTypingText text={INTRO_TEXT.join("\n\n")} speed={62} pause={1800} scrollRef={introScrollRef} onComplete={() => setIntroReady(true)} />
             <div className="intro-actions"><button className="intro-start" disabled={!introReady} onClick={() => { music.start(); setPhase("event"); }}><span>▶</span> {introReady ? "ENTRAR NA HISTÓRIA" : "LENDO..."}</button>
             <div className="intro-hint">Uma vida. 30 momentos. Nenhuma escolha existe sozinha.</div>
           </div>
