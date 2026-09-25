@@ -217,6 +217,77 @@ function SceneArtwork({ baseName, title }: { baseName: string; title: string }) 
   return <img key={src} className="scene-artwork" src={src} alt={title} onError={tryNext} />;
 }
 
+function useAmbientMusic() {
+  const contextRef = useRef<AudioContext | null>(null);
+  const masterRef = useRef<GainNode | null>(null);
+  const timerRef = useRef<number | null>(null);
+  const [enabled, setEnabled] = useState(false);
+
+  const stop = () => {
+    if (timerRef.current !== null) window.clearTimeout(timerRef.current);
+    timerRef.current = null;
+    if (masterRef.current && contextRef.current) {
+      masterRef.current.gain.cancelScheduledValues(contextRef.current.currentTime);
+      masterRef.current.gain.setTargetAtTime(0.0001, contextRef.current.currentTime, 0.18);
+    }
+    const context = contextRef.current;
+    contextRef.current = null;
+    masterRef.current = null;
+    setEnabled(false);
+    if (context) void context.close();
+  };
+
+  const start = () => {
+    if (enabled) return;
+    const AudioContextClass = window.AudioContext;
+    if (!AudioContextClass) return;
+
+    const context = contextRef.current ?? new AudioContextClass();
+    contextRef.current = context;
+    void context.resume();
+
+    const master = context.createGain();
+    master.gain.value = 0.028;
+    master.connect(context.destination);
+    masterRef.current = master;
+
+    const progression = [
+      [196.00, 246.94, 293.66],
+      [174.61, 220.00, 261.63],
+      [146.83, 196.00, 246.94],
+      [164.81, 207.65, 246.94],
+    ];
+    let step = 0;
+
+    const playChord = () => {
+      if (!contextRef.current || !masterRef.current) return;
+      const now = context.currentTime;
+      progression[step % progression.length].forEach((frequency, index) => {
+        const oscillator = context.createOscillator();
+        const gain = context.createGain();
+        oscillator.type = index === 0 ? "sine" : "triangle";
+        oscillator.frequency.value = frequency;
+        gain.gain.setValueAtTime(0.0001, now);
+        gain.gain.exponentialRampToValueAtTime(index === 0 ? 0.12 : 0.055, now + 0.35);
+        gain.gain.exponentialRampToValueAtTime(0.0001, now + 2.2);
+        oscillator.connect(gain);
+        gain.connect(master);
+        oscillator.start(now);
+        oscillator.stop(now + 2.25);
+      });
+      step += 1;
+      timerRef.current = window.setTimeout(playChord, 2200);
+    };
+
+    playChord();
+    setEnabled(true);
+  };
+
+  useEffect(() => () => stop(), []);
+
+  return { enabled, start, stop };
+}
+
 export function AhsdGame() {
   const [sceneIndex, setSceneIndex] = useState(0);
   const [phase, setPhase] = useState<Phase>("intro");
@@ -228,6 +299,7 @@ export function AhsdGame() {
   const [introReady, setIntroReady] = useState(false);
   const [eventTextReady, setEventTextReady] = useState(false);
   const [questionReady, setQuestionReady] = useState(false);
+  const music = useAmbientMusic();
   const introScrollRef = useRef<HTMLDivElement>(null);
   const scene = scenes[sceneIndex];
   const plausibleCount = history.filter((entry) => entry.plausible).length;
@@ -284,7 +356,7 @@ export function AhsdGame() {
             <h1>CINCO ANOS<br /><span>ABAIXO DA SUPERFÍCIE</span></h1>
             <div className="intro-line" />
             <IntroTypingText text={INTRO_TEXT.join("\n\n")} speed={42} scrollRef={introScrollRef} onComplete={() => setIntroReady(true)} />
-            <button className="intro-start" disabled={!introReady} onClick={() => setPhase("event")}><span>▶</span> {introReady ? "ENTRAR NA HISTÓRIA" : "LENDO..."}</button>
+            <div className="intro-actions"><button className="intro-start" disabled={!introReady} onClick={() => { music.start(); setPhase("event"); }}><span>▶</span> {introReady ? "ENTRAR NA HISTÓRIA" : "LENDO..."}</button>
             <div className="intro-hint">Uma vida. 30 momentos. Nenhuma escolha existe sozinha.</div>
           </div>
           </section>
