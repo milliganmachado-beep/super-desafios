@@ -60,7 +60,11 @@ function TypingText({ text, speed = 32, className = "", onComplete }: { text: st
       setVisible(index);
 
       if (index >= text.length) {
-        onCompleteRef.current?.();
+        // Aguarda a pintura do último caractere antes de liberar a próxima etapa.
+        // Sem isso, a pergunta/escolhas podem aparecer um frame antes do último caractere.
+        window.requestAnimationFrame(() => {
+          if (!cancelled) onCompleteRef.current?.();
+        });
         return;
       }
 
