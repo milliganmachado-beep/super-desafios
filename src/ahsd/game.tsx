@@ -283,7 +283,7 @@ export function AhsdGame() {
             <div className="intro-eyebrow">SUPER DESAFIOS · AHSD // PROTOCOLO 01</div>
             <h1>CINCO ANOS<br /><span>ABAIXO DA SUPERFÍCIE</span></h1>
             <div className="intro-line" />
-            <IntroTypingText text={INTRO_TEXT.join("\n\n")} speed={28} scrollRef={introScrollRef} onComplete={() => setIntroReady(true)} />
+            <IntroTypingText text={INTRO_TEXT.join("\n\n")} speed={42} scrollRef={introScrollRef} onComplete={() => setIntroReady(true)} />
             <button className="intro-start" disabled={!introReady} onClick={() => setPhase("event")}><span>▶</span> {introReady ? "ENTRAR NA HISTÓRIA" : "LENDO..."}</button>
             <div className="intro-hint">Uma vida. 30 momentos. Nenhuma escolha existe sozinha.</div>
           </div>
