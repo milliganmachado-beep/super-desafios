@@ -177,7 +177,8 @@ body { overscroll-behavior: none; }
   line-height: 1.48;
 }
 .question span {
-  font-size: 12px;
+  font-size: 14px;
+  text-transform: uppercase;
 }
 .question strong {
   font-size: 21px;
@@ -198,7 +199,8 @@ body { overscroll-behavior: none; }
     line-height: 1.35;
   }
   .question span {
-    font-size: 10px;
+    font-size: 12px;
+    text-transform: uppercase;
   }
   .question strong {
     font-size: 16px;
