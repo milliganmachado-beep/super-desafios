@@ -199,7 +199,15 @@ function SceneArtwork({ baseName, title }: { baseName: string; title: string }) 
   const [assetIndex, setAssetIndex] = useState(0);
   const [missing, setMissing] = useState(false);
   const baseNames = baseName.startsWith("0") ? [baseName, String(Number(baseName))] : [baseName];
-  const candidates = baseNames.flatMap((name) => IMAGE_EXTENSIONS.map((extension) => ({ name, extension })));
+  // As primeiras cenas usam diretamente os arquivos que já existem no repositório.
+  // Isso evita depender da sequência de tentativas para encontrar 1.jpg e 2.jpg.
+  const directJpg = String(Number(baseName));
+  const candidates = [
+    { name: directJpg, extension: "jpg" as const },
+    ...baseNames.flatMap((name) => IMAGE_EXTENSIONS.map((extension) => ({ name, extension }))),
+  ].filter((candidate, index, list) =>
+    list.findIndex((item) => item.name === candidate.name && item.extension === candidate.extension) === index,
+  );
   const asset = candidates[assetIndex];
   const src = `${import.meta.env.BASE_URL}ahsd/images/${asset.name}.${asset.extension}`;
   const tryNext = () => assetIndex < candidates.length - 1
