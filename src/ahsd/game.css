@@ -1287,3 +1287,45 @@ body { overscroll-behavior: none; }
   text-shadow:0 1px 3px rgba(0,0,0,.9);pointer-events:none;
 }
 @media(max-width:760px){.stat-bar .stat-value{font-size:7px}}
+
+
+/* === VALORES DOS ATRIBUTOS // DESTAQUE MAXIMO === */
+.stat-bar .stat-value{
+  position:absolute !important;
+  left:50% !important;
+  top:50% !important;
+  right:auto !important;
+  bottom:auto !important;
+  transform:translate(-50%,-50%) !important;
+  z-index:999 !important;
+  display:block !important;
+  width:auto !important;
+  height:auto !important;
+  min-width:42px !important;
+  padding:2px 5px !important;
+  box-sizing:border-box !important;
+  color:#ffffff !important;
+  background:rgba(0,0,0,.72) !important;
+  border:1px solid rgba(255,221,139,.75) !important;
+  border-radius:3px !important;
+  font:900 10px/1 ui-monospace,SFMono-Regular,Menlo,monospace !important;
+  text-align:center !important;
+  text-shadow:0 1px 3px #000 !important;
+  opacity:1 !important;
+  visibility:visible !important;
+  pointer-events:none !important;
+}
+.stat-name b{
+  display:inline-block !important;
+  visibility:visible !important;
+  opacity:1 !important;
+  color:#fff8e5 !important;
+  font-size:12px !important;
+}
+@media(max-width:760px){
+  .stat-bar .stat-value{
+    min-width:36px !important;
+    padding:2px 3px !important;
+    font-size:8px !important;
+  }
+}
