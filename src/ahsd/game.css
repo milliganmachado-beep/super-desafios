@@ -1231,3 +1231,47 @@ body { overscroll-behavior: none; }
 .choices button:hover{
   color:#ffffff;
 }
+
+
+/* === BARRAS // GARANTIR QUE TODAS APAREÇAM COMPLETAS === */
+.stats{
+  min-width:0;
+}
+.stat{
+  min-width:0;
+  overflow:visible;
+}
+.stat-bar{
+  display:block;
+  position:relative;
+  width:100%;
+  min-width:0;
+  max-width:none;
+  box-sizing:border-box;
+  overflow:hidden;
+  flex:none;
+}
+.stat-bar i{
+  display:block;
+  position:absolute;
+  left:1px;
+  right:auto;
+  top:1px;
+  bottom:1px;
+  min-width:0;
+  max-width:calc(100% - 2px);
+  box-sizing:border-box;
+}
+@media(max-width:760px){
+  .stats{
+    min-width:0;
+    width:100%;
+  }
+  .stat{
+    min-width:0;
+  }
+  .stat-bar{
+    width:100%;
+    min-width:0;
+  }
+}
