@@ -355,3 +355,38 @@ body { overscroll-behavior: none; }
     margin-bottom: 10px;
   }
 }
+
+
+/* === SEPARAÇÃO VISUAL DEFINITIVA: NARRATIVA -> PERGUNTA === */
+.dialogue-panel .question {
+  margin-top: 82px !important;
+  margin-bottom: 20px !important;
+  padding-top: 22px !important;
+  padding-left: 16px !important;
+  border-top: 1px solid rgba(145, 169, 255, .28);
+  border-left: 3px solid #91a9ff;
+}
+.dialogue-panel .question span {
+  display: block;
+  margin-bottom: 16px !important;
+  color: #91a9ff;
+  font-size: 14px;
+  font-weight: 900;
+  letter-spacing: .12em;
+}
+.dialogue-panel .question strong {
+  display: block;
+  margin-top: 0 !important;
+}
+@media (max-width: 760px) {
+  .dialogue-panel .question {
+    margin-top: 58px !important;
+    margin-bottom: 14px !important;
+    padding-top: 16px !important;
+    padding-left: 10px !important;
+  }
+  .dialogue-panel .question span {
+    margin-bottom: 11px !important;
+    font-size: 10px;
+  }
+}
