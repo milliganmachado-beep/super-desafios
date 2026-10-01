@@ -383,14 +383,41 @@ export function AhsdGame() {
       <section className={`vn-stage ${phase === "intro" ? "intro-stage" : ""}`} aria-label="Cinco anos abaixo da superfície">
         {phase === "intro" ? (
           <section className="intro-screen">
-          <div className="intro-scroll" ref={introScrollRef}>
-            <div className="intro-eyebrow">SUPER DESAFIOS · AHSD // PROTOCOLO 01</div>
-            <h1>CINCO ANOS<br /><span>ABAIXO DA SUPERFÍCIE</span></h1>
-            <div className="intro-line" />
-            <IntroTypingText text={INTRO_TEXT.join("\n\n")} speed={62} pause={1800} scrollRef={introScrollRef} onComplete={() => setIntroReady(true)} />
-            <div className="intro-actions"><button className="intro-start" disabled={!introReady} onClick={() => { music.start(); setPhase("event"); }}><span>▶</span> {introReady ? "ENTRAR NA HISTÓRIA" : "LENDO..."}</button>
-            <div className="intro-hint">Uma vida. 30 momentos. Nenhuma escolha existe sozinha.</div>
-          </div>
+            <div className="intro-grid" aria-hidden="true" />
+            <div className="intro-depth" aria-hidden="true">
+              <span>01</span>
+              <i />
+              <small>SUPERFÍCIE</small>
+              <b>↓</b>
+              <small>ABAIXO DELA</small>
+            </div>
+            <div className="intro-visual" aria-hidden="true">
+              <div className="iceberg">
+                <div className="iceberg-surface" />
+                <div className="iceberg-tip" />
+                <div className="iceberg-body" />
+                <div className="iceberg-depth depth-one" />
+                <div className="iceberg-depth depth-two" />
+                <div className="iceberg-depth depth-three" />
+              </div>
+              <div className="intro-visual-label"><span>AHSD</span><b>O QUE APARECE É SÓ UMA PARTE.</b></div>
+            </div>
+            <div className="intro-scroll" ref={introScrollRef}>
+              <div className="intro-content">
+                <div className="intro-eyebrow">SUPER DESAFIOS · VISUAL NOVEL</div>
+                <div className="intro-index">UMA HISTÓRIA EM 30 MOMENTOS</div>
+                <h1>CINCO ANOS<br /><span>ABAIXO DA SUPERFÍCIE</span></h1>
+                <p className="intro-tagline">O que as pessoas veem é apenas a parte que chegou à superfície.</p>
+                <div className="intro-line" />
+                <IntroTypingText text={INTRO_TEXT.join("\n\n")} speed={62} pause={1800} scrollRef={introScrollRef} onComplete={() => setIntroReady(true)} />
+                <div className="intro-actions">
+                  <button className="intro-start" disabled={!introReady} onClick={() => { music.start(); setPhase("event"); }}>
+                    <span>▶</span> {introReady ? "ENTRAR NA HISTÓRIA" : "LENDO..."}
+                  </button>
+                </div>
+                <div className="intro-hint">Uma vida. 30 momentos. Nenhuma escolha existe sozinha.</div>
+              </div>
+            </div>
           </section>
         ) : (
           <>
