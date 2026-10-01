@@ -1,55 +1,98 @@
-/* === CORREÇÃO // BARRAS DE ATRIBUTOS BEM ENCAIXADAS === */
-.stats {
-  width: 100%;
-  box-sizing: border-box;
-  align-items: stretch;
-}
+/* === ATRIBUTOS // IDENTIDADE VISUAL POR ESTADO === */
 .stat {
-  min-width: 0;
-  width: 100%;
-  box-sizing: border-box;
+  --stat-color: #91a9ff;
+  --stat-soft: rgba(145,169,255,.14);
+  --stat-border: rgba(145,169,255,.38);
+  border-color: var(--stat-border);
+  background:
+    linear-gradient(180deg, rgba(20,27,39,.98), rgba(9,13,20,.98));
 }
-.stat-name {
-  min-width: 0;
-  width: 100%;
-  box-sizing: border-box;
+
+.stat-icon {
+  color: var(--stat-color);
+  background: var(--stat-soft);
+  border-color: var(--stat-border);
+  box-shadow: 0 0 10px var(--stat-soft);
 }
-.stat-name > span:not(.stat-icon) {
-  min-width: 0;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-}
+
 .stat-name b {
-  flex: 0 0 auto;
+  color: var(--stat-color);
+  text-shadow: 0 0 10px var(--stat-soft);
 }
+
 .stat-bar {
-  width: 100%;
-  box-sizing: border-box;
-  position: relative;
-  overflow: hidden;
+  border-color: var(--stat-border);
+  background: rgba(4,7,12,.92);
 }
+
 .stat-bar i {
-  position: absolute;
-  left: 1px;
-  top: 1px;
-  bottom: 1px;
-  width: 0;
-  max-width: calc(100% - 2px);
-  box-sizing: border-box;
-  border-radius: 1px;
+  background: linear-gradient(
+    90deg,
+    color-mix(in srgb, var(--stat-color) 58%, #111827),
+    var(--stat-color),
+    color-mix(in srgb, var(--stat-color) 72%, #ffffff)
+  );
+  box-shadow:
+    0 0 7px var(--stat-soft),
+    0 0 15px var(--stat-soft);
 }
+
+/* Conexão — verde-água: vínculo e relação */
+.stat:nth-child(1) {
+  --stat-color: #62d5c2;
+  --stat-soft: rgba(98,213,194,.16);
+  --stat-border: rgba(98,213,194,.38);
+}
+
+/* Estímulo — violeta: curiosidade e intensidade */
+.stat:nth-child(2) {
+  --stat-color: #b79cff;
+  --stat-soft: rgba(183,156,255,.16);
+  --stat-border: rgba(183,156,255,.38);
+}
+
+/* Energia — âmbar: disposição e desgaste */
+.stat:nth-child(3) {
+  --stat-color: #f0b85b;
+  --stat-soft: rgba(240,184,91,.16);
+  --stat-border: rgba(240,184,91,.38);
+}
+
+/* Autenticidade — coral: identidade e expressão */
+.stat:nth-child(4) {
+  --stat-color: #ee8f8f;
+  --stat-soft: rgba(238,143,143,.16);
+  --stat-border: rgba(238,143,143,.38);
+}
+
+/* Regulação — verde: equilíbrio e organização interna */
+.stat:nth-child(5) {
+  --stat-color: #8fcf8f;
+  --stat-soft: rgba(143,207,143,.16);
+  --stat-border: rgba(143,207,143,.38);
+}
+
+/* Autonomia — azul: iniciativa e capacidade de conduzir a própria trajetória */
+.stat:nth-child(6) {
+  --stat-color: #7fa8ff;
+  --stat-soft: rgba(127,168,255,.16);
+  --stat-border: rgba(127,168,255,.38);
+}
+
+/* A cor também aparece no preenchimento sem transformar o HUD em um arco-íris forte. */
+.stat:hover {
+  border-color: var(--stat-color);
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,.07),
+    0 0 16px var(--stat-soft);
+  transform: translateY(-1px);
+}
+
 .stat-bar i:after {
-  pointer-events: none;
-}
-@media (max-width: 760px) {
-  .stats {
-    width: 100%;
-  }
-  .stat {
-    width: 100%;
-  }
-  .stat-bar {
-    width: 100%;
-  }
+  background: linear-gradient(
+    105deg,
+    transparent 0%,
+    rgba(255,255,255,.30) 45%,
+    transparent 60%
+  );
 }
