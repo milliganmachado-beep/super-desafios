@@ -776,3 +776,126 @@ body { overscroll-behavior: none; }
     font-size: 16px;
   }
 }
+
+
+/* === ICEBERG WATERMARK // MAIS REAL E DISCRETO === */
+.intro-visual {
+  right: -3%;
+  top: 50%;
+  width: min(58vw, 720px);
+  height: min(88vh, 700px);
+  opacity: .22;
+  filter: saturate(.78) contrast(1.05);
+  transform: translateY(-50%) scale(1.04);
+}
+
+.iceberg {
+  filter:
+    drop-shadow(0 24px 55px rgba(0,0,0,.52))
+    blur(.12px);
+}
+
+.iceberg-surface {
+  left: -4%;
+  right: -12%;
+  top: 43%;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(164,190,221,.34) 35%,
+    rgba(221,235,250,.28) 52%,
+    transparent
+  );
+  box-shadow: 0 0 18px rgba(145,169,255,.08);
+}
+
+.iceberg-tip {
+  left: 37%;
+  top: 10%;
+  width: 27%;
+  height: 35%;
+  clip-path: polygon(
+    50% 0,
+    68% 17%,
+    100% 100%,
+    63% 86%,
+    35% 100%,
+    0 100%,
+    24% 42%
+  );
+  background:
+    radial-gradient(ellipse at 54% 18%, rgba(255,255,255,.78), transparent 26%),
+    linear-gradient(155deg, rgba(245,249,255,.76), rgba(170,198,226,.30) 48%, rgba(78,111,148,.20));
+  border: 1px solid rgba(228,239,252,.30);
+  box-shadow:
+    inset -16px -10px 24px rgba(60,91,126,.16),
+    inset 10px 8px 18px rgba(255,255,255,.12);
+}
+
+.iceberg-body {
+  left: 8%;
+  top: 42%;
+  width: 84%;
+  height: 54%;
+  clip-path: polygon(
+    8% 0,
+    90% 0,
+    100% 10%,
+    91% 27%,
+    96% 43%,
+    78% 54%,
+    88% 70%,
+    66% 82%,
+    74% 100%,
+    27% 92%,
+    4% 77%,
+    15% 60%,
+    0 45%,
+    17% 28%
+  );
+  background:
+    radial-gradient(ellipse at 43% 9%, rgba(205,226,246,.34), transparent 23%),
+    radial-gradient(ellipse at 65% 48%, rgba(91,132,173,.22), transparent 34%),
+    linear-gradient(155deg,
+      rgba(180,207,232,.20) 0%,
+      rgba(93,130,169,.30) 30%,
+      rgba(43,72,105,.52) 58%,
+      rgba(15,28,46,.78) 100%);
+  border: 1px solid rgba(145,169,255,.20);
+  box-shadow:
+    inset 20px 8px 35px rgba(218,235,250,.06),
+    inset -30px -20px 55px rgba(0,8,20,.24);
+}
+
+.iceberg-depth {
+  left: 3%;
+  width: 94%;
+  opacity: .72;
+  filter: blur(.2px);
+}
+
+.depth-one { top: 58%; transform: rotate(6deg); }
+.depth-two { top: 70%; transform: rotate(-4deg); }
+.depth-three { top: 83%; transform: rotate(5deg); }
+
+.intro-visual-label {
+  display: none;
+}
+
+@media (max-width: 760px) {
+  .intro-visual {
+    right: -32%;
+    top: 46%;
+    width: 108vw;
+    height: 76vh;
+    opacity: .13;
+    transform: translateY(-50%) scale(1.02);
+  }
+}
+
+@media (max-height: 720px) and (min-width: 761px) {
+  .intro-visual {
+    width: min(56vw, 650px);
+    height: 82vh;
+  }
+}
