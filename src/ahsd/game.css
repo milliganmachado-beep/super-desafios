@@ -321,3 +321,16 @@ body { overscroll-behavior: none; }
     margin-bottom: 11px;
   }
 }
+
+
+/* === ESPAÇO ENTRE NARRATIVA E PERGUNTA — TODAS AS CENAS === */
+.dialogue-panel .question {
+  margin-top: 44px;
+  margin-bottom: 18px;
+}
+@media (max-width: 760px) {
+  .dialogue-panel .question {
+    margin-top: 28px;
+    margin-bottom: 12px;
+  }
+}
