@@ -1219,3 +1219,15 @@ body { overscroll-behavior: none; }
     padding:7px 9px;
   }
 }
+
+
+/* === OPÇÕES A-D // CONTRASTE NEUTRO === */
+.choices button{
+  color:#f1f1ee;
+}
+.choices button>span{
+  color:#ffffff;
+}
+.choices button:hover{
+  color:#ffffff;
+}
