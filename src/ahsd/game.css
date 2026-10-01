@@ -334,3 +334,24 @@ body { overscroll-behavior: none; }
     margin-bottom: 12px;
   }
 }
+/* === MAIS RESPIRO ANTES DA PERGUNTA AZUL === */
+.dialogue-panel .question {
+  margin-top: 76px;
+  padding-top: 6px;
+}
+.dialogue-panel .question span {
+  display: block;
+  margin-bottom: 14px;
+}
+.dialogue-panel .question strong {
+  margin-top: 0;
+}
+@media (max-width: 760px) {
+  .dialogue-panel .question {
+    margin-top: 48px;
+    padding-top: 4px;
+  }
+  .dialogue-panel .question span {
+    margin-bottom: 10px;
+  }
+}
