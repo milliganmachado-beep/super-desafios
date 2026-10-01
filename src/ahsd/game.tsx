@@ -333,6 +333,7 @@ export function AhsdGame() {
   const [questionReady, setQuestionReady] = useState(false);
   const music = useAmbientMusic();
   const introScrollRef = useRef<HTMLDivElement>(null);
+  const sceneDialogueRef = useRef<HTMLElement>(null);
   const scene = scenes[sceneIndex];
   const plausibleCount = history.filter((entry) => entry.plausible).length;
   const progress = ((sceneIndex + (phase === "outcome" ? 0.5 : 0)) / scenes.length) * 100;
@@ -344,6 +345,25 @@ export function AhsdGame() {
   useEffect(() => {
     setEventTextReady(false);
     setQuestionReady(false);
+  }, [sceneIndex, phase]);
+
+  // As cenas mantêm o layout fixo, mas acompanham automaticamente o texto.
+  // Assim, quando a máquina de escrever aumenta o conteúdo, o painel desce sozinho.
+  useEffect(() => {
+    const panel = sceneDialogueRef.current;
+    if (!panel || (phase !== "event" && phase !== "ending")) return;
+
+    panel.scrollTop = 0;
+
+    const keepAtBottom = () => {
+      panel.scrollTo({ top: panel.scrollHeight, behavior: "auto" });
+    };
+
+    const observer = new MutationObserver(keepAtBottom);
+    observer.observe(panel, { childList: true, subtree: true, characterData: true });
+    keepAtBottom();
+
+    return () => observer.disconnect();
   }, [sceneIndex, phase]);
 
   const choose = (choice: Choice, choiceIndex: number) => {
@@ -437,7 +457,7 @@ export function AhsdGame() {
               <div className="scene-image" role="img" aria-label={`Imagem ${artworkBaseName} da cena ${scene.id}`}><SceneArtwork key={artworkBaseName} baseName={artworkBaseName} title={scene.title} /><div className="image-number">IMG_{artworkBaseName.toUpperCase()}</div><div className="scene-title"><TypingText text={scene.title} speed={40} /></div></div>
             </div>
 
-            {phase === "event" && scene.id < 30 ? <section className={`dialogue-panel scene-dialogue scene-${scene.id}`}>
+            {phase === "event" && scene.id < 30 ? <section ref={sceneDialogueRef} className={`dialogue-panel scene-dialogue scene-${scene.id}`}>
   <div className="narrative">
     <SequentialTyping paragraphs={scene.event} speed={32} onFinished={() => setEventTextReady(true)} />
   </div>
@@ -454,7 +474,7 @@ export function AhsdGame() {
 
             {phase === "outcome" && selected ? <section className="dialogue-panel outcome-panel"><div className="outcome-label">ENTRE CENAS // REGISTRO ATUALIZADO</div><p><TypingText text={selected.outcome} /></p><div className="delta-line"><TypingText text={deltaText(selected.deltas) || "Sem alteração imediata"} speed={30} /></div><button className="continue" onClick={nextScene}>AVANÇAR CERCA DE DOIS MESES →</button></section> : null}
 
-            {phase === "ending" ? <section className="dialogue-panel ending-panel">
+            {phase === "ending" ? <section ref={sceneDialogueRef} className="dialogue-panel ending-panel">
   <div className="narrative">
     <SequentialTyping paragraphs={scene.event} speed={180} onFinished={() => setEventTextReady(true)} />
   </div>
