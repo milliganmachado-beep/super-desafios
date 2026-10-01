@@ -667,3 +667,112 @@ body { overscroll-behavior: none; }
   .intro-actions { margin-top: 15px; }
   .intro-visual { height: 58vh; }
 }
+
+
+/* === INTRO V2 // MAIS ELEGANTE, MENOS PROTOTIPO === */
+.intro-screen {
+  background:
+    radial-gradient(ellipse at 78% 58%, rgba(104,132,177,.13), transparent 30%),
+    radial-gradient(ellipse at 20% 20%, rgba(217,166,108,.055), transparent 32%),
+    linear-gradient(118deg, #06080b 0%, #0b1018 55%, #0a0e15 100%);
+  border-color: rgba(217,166,108,.18);
+}
+.intro-grid {
+  opacity: .10;
+  background-size: 72px 72px;
+  mask-image: linear-gradient(90deg, black 0%, transparent 72%);
+}
+.intro-depth {
+  opacity: .72;
+}
+.intro-visual {
+  right: 2%;
+  width: min(38vw, 470px);
+  height: min(72vh, 560px);
+  opacity: .58;
+}
+.iceberg-tip {
+  background: linear-gradient(145deg, rgba(239,245,255,.62), rgba(127,154,194,.08));
+}
+.iceberg-body {
+  background:
+    radial-gradient(ellipse at 50% 10%, rgba(124,157,202,.22), transparent 42%),
+    linear-gradient(145deg, rgba(105,137,179,.10), rgba(38,61,89,.48) 52%, rgba(13,22,35,.90));
+}
+.intro-visual-label {
+  opacity: .8;
+}
+.intro-scroll {
+  width: min(800px, 65%);
+  margin-left: clamp(76px, 9vw, 130px);
+}
+.intro-screen h1 {
+  font-size: clamp(52px, 6.8vw, 88px);
+  letter-spacing: -.06em;
+}
+.intro-tagline {
+  max-width: 600px;
+  font-size: clamp(17px, 1.45vw, 21px);
+  line-height: 1.5;
+  color: #b9c1ce;
+}
+.intro-copy {
+  max-width: 760px;
+  font-size: clamp(18px, 1.48vw, 21px);
+  line-height: 1.68;
+  color: #e0e4ea;
+}
+.intro-copy span[style] {
+  margin-bottom: 1.15em !important;
+}
+.intro-actions {
+  margin-top: 28px;
+}
+.intro-start {
+  font-size: 13px;
+  padding: 15px 22px;
+}
+.intro-hint {
+  font-size: 10px;
+}
+@media (max-width: 760px) {
+  .intro-visual {
+    right: -24%;
+    top: 18%;
+    width: 82vw;
+    height: 56vh;
+    opacity: .18;
+  }
+  .intro-scroll {
+    width: auto;
+    margin-left: 34px;
+    margin-right: 15px;
+    padding-top: 30px;
+  }
+  .intro-screen h1 {
+    font-size: clamp(38px, 11.5vw, 56px);
+  }
+  .intro-tagline {
+    font-size: 15px;
+    line-height: 1.5;
+  }
+  .intro-copy {
+    font-size: 16px;
+    line-height: 1.55;
+  }
+  .intro-copy span[style] {
+    margin-bottom: 1.05em !important;
+  }
+  .intro-start {
+    font-size: 12px;
+  }
+}
+@media (max-height: 720px) and (min-width: 761px) {
+  .intro-copy {
+    font-size: 16px;
+    line-height: 1.48;
+  }
+  .intro-tagline {
+    font-size: 16px;
+  }
+}
