@@ -450,7 +450,7 @@ export function AhsdGame() {
               <aside className="vn-hud">
                 <div className="portrait" aria-label="Retrato de Daniel"><div className="portrait-placeholder">D</div><div><strong>Daniel</strong><span>Engenharia de Produção</span></div></div>
                 <div className="stats">
-                  {STAT_KEYS.map((key) => <div className="stat" key={key}><div className="stat-name"><span className="stat-icon">{STAT_ICONS[key]}</span><span>{statLabels[key]}</span><b>{stats[key]}</b></div><div className="stat-bar" role="progressbar" aria-label={statLabels[key]} aria-valuenow={stats[key]} aria-valuemin={0} aria-valuemax={100}><i style={{ width: `${stats[key]}%` }} /><span className="stat-value" aria-hidden="true">{stats[key]}/100</span></div></div>)}
+                  {STAT_KEYS.map((key) => <div className="stat" key={key}><div className="stat-name"><span className="stat-icon">{STAT_ICONS[key]}</span><span>{statLabels[key]}</span><b>{stats[key]}</b></div><div className="stat-bar" role="progressbar" aria-label={statLabels[key]} aria-valuenow={stats[key]} aria-valuemin={0} aria-valuemax={100}><i style={{ width: `${stats[key]}%` }} /></div></div>)}
                 </div>
                 <div className="routes"><span>HISTÓRIAS EM CENA</span><div>{scene.routes.map((route) => <em key={route}>{routeLabels[route]}</em>)}</div></div>
               </aside>
