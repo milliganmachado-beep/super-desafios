@@ -6,6 +6,7 @@ export type Choice = {
   outcome: string;
   deltas: Partial<Record<StatKey, number>>;
   plausible: boolean;
+  image?: string;
 };
 
 export type Scene = {
