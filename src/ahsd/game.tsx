@@ -469,8 +469,11 @@ export function AhsdGame() {
         ) : (
           <>
             <header className="vn-topbar">
-              <div className="vn-kicker">CINCO ANOS ABAIXO DA SUPERFÍCIE</div>
-              <div className="vn-progress-wrap" aria-label={`Cena ${scene.id} de 30`}><span>{sceneNumber} / 30</span><div className="vn-progress"><i style={{ width: `${progress}%` }} /></div></div>
+              <div className="vn-heading-line">
+                <div className="vn-kicker">CINCO ANOS ABAIXO DA SUPERFÍCIE</div>
+                <div className="vn-date"><TypingText text={scene.date + " · " + scene.age} speed={30} /></div>
+              </div>
+              <div className="vn-progress-wrap" aria-label={"Cena " + scene.id + " de 30"}><span>{sceneNumber} / 30</span><div className="vn-progress"><i style={{ width: progress + "%" }} /></div></div>
             </header>
 
             <div className="vn-visual-row">
@@ -482,7 +485,7 @@ export function AhsdGame() {
                 <div className="routes"><span>HISTÓRIAS EM CENA</span><div>{scene.routes.map((route) => <em key={route}>{routeLabels[route]}</em>)}</div></div>
               </aside>
               <div className="scene-column">
-                <div className="vn-date"><TypingText text={`${scene.date} · ${scene.age}`} speed={30} /></div>
+                
                 <div className="scene-image" role="img" aria-label={`Imagem ${artworkBaseName} da cena ${scene.id}`}><SceneArtwork key={artworkBaseName} baseName={artworkBaseName} title={scene.title} /><div className="image-number">IMG_{artworkBaseName.toUpperCase()}</div><div className="scene-title"><TypingText text={scene.title} speed={40} /></div></div>
               </div>
             </div>
