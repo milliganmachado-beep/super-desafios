@@ -1277,3 +1277,87 @@ body { overscroll-behavior: none; }
 }
 
 
+
+
+/* === IMERSÃO / LEITURA // AJUSTES DE LAYOUT === */
+@media (min-width: 761px) {
+  .intro-screen { overflow: hidden; }
+  .intro-scroll {
+    width: min(1120px, 78vw);
+    max-width: none;
+    overflow: hidden;
+    margin-left: clamp(76px, 8vw, 118px);
+    padding-top: clamp(42px, 6vh, 70px);
+    padding-bottom: 24px;
+  }
+  .intro-content { max-width: 1060px; }
+  .intro-tagline { max-width: 900px; }
+  .intro-copy { max-width: 1000px; }
+  .intro-actions { margin-top: 18px; }
+
+  .vn-visual-row {
+    align-items: stretch;
+  }
+  .scene-column {
+    flex: 1 1 auto;
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+  }
+  .scene-column .vn-date {
+    width: 100%;
+    box-sizing: border-box;
+    text-align: center;
+    margin: 0 0 10px;
+    color: #e8d8b6;
+    font-size: 15px;
+    font-weight: 700;
+    letter-spacing: .08em;
+  }
+  .scene-column .scene-image {
+    flex: 1 1 auto;
+    min-height: 0;
+  }
+  .vn-topbar .vn-kicker { margin: 0; }
+
+  .stats {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    grid-template-rows: repeat(2, auto);
+    gap: 7px;
+  }
+  .stat { width: auto; min-width: 0; }
+}
+
+/* O cursor só existe enquanto há texto sendo digitado; nunca permanece no fim. */
+.typing-complete { display: none !important; }
+
+@media (max-width: 760px) {
+  .stats {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 6px;
+  }
+  .scene-column {
+    width: 100%;
+    min-width: 0;
+  }
+  .scene-column .vn-date {
+    width: 100%;
+    text-align: center;
+    margin: 0 0 7px;
+    font-size: 13px;
+    font-weight: 700;
+  }
+}
+
+/* A consequência ocupa o lugar de uma pequena cena: resultado + significado + efeito. */
+.outcome-panel .delta-line {
+  margin-top: 16px;
+  padding: 13px 15px;
+  line-height: 1.55;
+}
+.outcome-panel .continue {
+  margin-top: 18px;
+}
