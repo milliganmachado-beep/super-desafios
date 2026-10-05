@@ -254,6 +254,20 @@ const INTRO_TEXT = [
   "Esta história começa como um iceberg: o que aparece é só uma parte. Ao longo de cinco anos e 30 momentos, escolhas, contexto e consequências vão revelar o que existe abaixo da superfície. Não há uma resposta perfeita — há o que Daniel consegue sustentar.",
 ];
 
+
+function OutcomePanel({ selected, stats, nextScene }: { selected: Choice; stats: Record<StatKey, number>; nextScene: () => void }) {
+  const [outcomeReady, setOutcomeReady] = useState(false);
+  useEffect(() => { setOutcomeReady(false); }, [selected]);
+  return (
+    <section className="dialogue-panel outcome-panel">
+      <div className="outcome-label">ENTRE CENAS // REGISTRO ATUALIZADO</div>
+      <p><TypingText text={selected.outcome} onComplete={() => setOutcomeReady(true)} /></p>
+      {outcomeReady ? <div className="delta-line"><TypingText text={impactText(selected.deltas, selected.outcome, stats)} speed={28} /></div> : null}
+      <button className="continue" onClick={nextScene}>AVANÇAR</button>
+    </section>
+  );
+}
+
 function SceneArtwork({ baseName, title }: { baseName: string; title: string }) {
   const [assetIndex, setAssetIndex] = useState(0);
   const [missing, setMissing] = useState(false);
