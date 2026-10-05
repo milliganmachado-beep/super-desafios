@@ -410,6 +410,30 @@ export function AhsdGame() {
     setPhase("event");
   };
 
+  // Modo de teste: a tecla \"]\" avança diretamente para a próxima cena sem precisar jogar as anteriores.
+  // O atalho só funciona fora da introdução e não altera os atributos nem o histórico.
+  useEffect(() => {
+    const handleTestAdvance = (event: KeyboardEvent) => {
+      if (event.key !== "]" || phase === "intro" || phase === "result") return;
+      event.preventDefault();
+
+      if (sceneIndex >= scenes.length - 1) {
+        setPhase("ending");
+        return;
+      }
+
+      setSelected(null);
+      setSelectedChoiceIndex(null);
+      setEventTextReady(false);
+      setQuestionReady(false);
+      setSceneIndex((current) => current + 1);
+      setPhase("event");
+    };
+
+    window.addEventListener("keydown", handleTestAdvance);
+    return () => window.removeEventListener("keydown", handleTestAdvance);
+  }, [phase, sceneIndex]);
+
   const chooseEnding = (picked: Ending) => {
     setEnding(picked);
     setStats((current) => {
