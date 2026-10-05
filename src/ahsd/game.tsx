@@ -31,6 +31,26 @@ function applyDeltas(stats: Record<StatKey, number>, deltas: Choice["deltas"]) {
   return next;
 }
 
+const statImpact: Record<StatKey, { gain: string; loss: string }> = {
+  conexao: { gain: "Daniel se sente mais conectado às pessoas ao redor", loss: "Daniel sente a distância entre ele e as pessoas aumentar" },
+  estimulo: { gain: "Daniel encontra mais espaço para explorar o que o desafia", loss: "Daniel sente que está ficando sem espaço para aquilo que realmente o estimula" },
+  energia: { gain: "Daniel termina esse momento com mais energia para seguir", loss: "Daniel sai desse momento mais cansado do que entrou" },
+  autenticidade: { gain: "Daniel consegue agir mais de acordo com quem realmente é", loss: "Daniel sente que precisou esconder ou segurar uma parte de quem é" },
+  regulacao: { gain: "Daniel consegue se organizar emocionalmente melhor diante do que aconteceu", loss: "Daniel fica mais sobrecarregado para lidar com o que aconteceu" },
+  autonomia: { gain: "Daniel percebe mais espaço para conduzir as próprias decisões", loss: "Daniel sente que perdeu parte do controle sobre o próprio caminho" },
+};
+
+function impactText(deltas: Choice["deltas"], outcome: string, currentStats: Record<StatKey, number>) {
+  const impacts = STAT_KEYS.filter((key) => deltas[key]).map((key) => {
+    const value = deltas[key] ?? 0;
+    const label = statLabels[key].toLowerCase();
+    const phrase = value > 0 ? statImpact[key].gain : statImpact[key].loss;
+    return `${phrase}. ${label.charAt(0).toUpperCase() + label.slice(1)} agora está em ${currentStats[key]}.`;
+  });
+  if (!impacts.length) return `${outcome} Não houve uma mudança imediata nos atributos, mas a escolha passa a fazer parte do caminho de Daniel.`;
+  return `${outcome} ${impacts.join(" ")}`;
+}
+
 function deltaText(deltas: Choice["deltas"]) {
   return STAT_KEYS.filter((key) => deltas[key]).map((key) => `${statLabels[key]} ${(deltas[key] ?? 0) > 0 ? "+" : ""}${deltas[key]}`).join(" · ");
 }
@@ -215,7 +235,6 @@ function SequentialTyping({ paragraphs, speed = 180, pause = 650, onFinished }: 
           />
         </p>
       ))}
-      {finished ? <span className="typing-complete" aria-hidden="true">▌</span> : null}
     </>
   );
 }
@@ -442,7 +461,7 @@ export function AhsdGame() {
         ) : (
           <>
             <header className="vn-topbar">
-              <div><div className="vn-kicker">CINCO ANOS ABAIXO DA SUPERFÍCIE</div><div className="vn-date"><TypingText text={`${scene.date} · ${scene.age}`} speed={30} /></div></div>
+              <div className="vn-kicker">CINCO ANOS ABAIXO DA SUPERFÍCIE</div>
               <div className="vn-progress-wrap" aria-label={`Cena ${scene.id} de 30`}><span>{sceneNumber} / 30</span><div className="vn-progress"><i style={{ width: `${progress}%` }} /></div></div>
             </header>
 
@@ -454,7 +473,10 @@ export function AhsdGame() {
                 </div>
                 <div className="routes"><span>HISTÓRIAS EM CENA</span><div>{scene.routes.map((route) => <em key={route}>{routeLabels[route]}</em>)}</div></div>
               </aside>
-              <div className="scene-image" role="img" aria-label={`Imagem ${artworkBaseName} da cena ${scene.id}`}><SceneArtwork key={artworkBaseName} baseName={artworkBaseName} title={scene.title} /><div className="image-number">IMG_{artworkBaseName.toUpperCase()}</div><div className="scene-title"><TypingText text={scene.title} speed={40} /></div></div>
+              <div className="scene-column">
+                <div className="vn-date"><TypingText text={`${scene.date} · ${scene.age}`} speed={30} /></div>
+                <div className="scene-image" role="img" aria-label={`Imagem ${artworkBaseName} da cena ${scene.id}`}><SceneArtwork key={artworkBaseName} baseName={artworkBaseName} title={scene.title} /><div className="image-number">IMG_{artworkBaseName.toUpperCase()}</div><div className="scene-title"><TypingText text={scene.title} speed={40} /></div></div>
+              </div>
             </div>
 
             {phase === "event" && scene.id < 30 ? <section ref={sceneDialogueRef} className={`dialogue-panel scene-dialogue scene-${scene.id}`}>
@@ -462,7 +484,6 @@ export function AhsdGame() {
     <SequentialTyping paragraphs={scene.event} speed={32} onFinished={() => setEventTextReady(true)} />
   </div>
   {eventTextReady ? <div className="question">
-    <span>O QUE ACONTECE AGORA?</span>
     <strong><TypingText text={scene.question} speed={32} onComplete={() => setQuestionReady(true)} /></strong>
   </div> : null}
   {eventTextReady && questionReady ? <div className="choices">
@@ -472,7 +493,7 @@ export function AhsdGame() {
   </div> : null}
 </section> : null}
 
-            {phase === "outcome" && selected ? <section className="dialogue-panel outcome-panel"><div className="outcome-label">ENTRE CENAS // REGISTRO ATUALIZADO</div><p><TypingText text={selected.outcome} /></p><div className="delta-line"><TypingText text={deltaText(selected.deltas) || "Sem alteração imediata"} speed={30} /></div><button className="continue" onClick={nextScene}>AVANÇAR CERCA DE DOIS MESES →</button></section> : null}
+            {phase === "outcome" && selected ? <section className="dialogue-panel outcome-panel"><div className="outcome-label">ENTRE CENAS // REGISTRO ATUALIZADO</div><p><TypingText text={selected.outcome} /></p><div className="delta-line"><TypingText text={impactText(selected.deltas, selected.outcome, stats)} speed={28} /></div><button className="continue" onClick={nextScene}>AVANÇAR</button></section> : null}
 
             {phase === "ending" ? <section ref={sceneDialogueRef} className="dialogue-panel ending-panel">
   <div className="narrative">
