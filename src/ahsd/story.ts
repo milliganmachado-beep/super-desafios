@@ -61,9 +61,11 @@ export const scenes: Scene[] = [
   {
     id: 2, date: "Abril · Ano 1", age: "18 anos", title: "A mesa do fundo", routes: ["familia", "faculdade", "amizades"], complicator: "Sensação de ser diferente",
     event: [
-      "Dois meses depois, Daniel já almoça quase todos os dias com Bruno, Larissa, Caio e Júlia.",
-      "Num domingo, ele transforma a decisão da irmã Marina de largar o inglês numa discussão sobre motivação, escolhas e compromisso. Na segunda, faz algo parecido quando Bruno reclama de um aplicativo ruim.",
-      "Nas duas vezes, alguém diz a mesma coisa com palavras diferentes: era uma conversa simples."
+      "Dois meses depois, Daniel já almoça quase todos os dias com Bruno, Larissa, Caio e Júlia. É uma segunda-feira comum. Bruno está reclamando do aplicativo de transporte que acabou de travar pela terceira vez. Ele só queria desabafar.",
+      "— Esse aplicativo é muito ruim — Bruno diz, mostrando a tela do celular. — Só isso. Eu vou apagar e pronto.",
+      "Daniel pega o celular por um instante. Pergunta qual é o erro, por que o aplicativo foi projetado daquele jeito, se o problema é interface ou arquitetura e por que a empresa ainda não corrigiu. Bruno responde duas vezes que não sabe. Na terceira, ri sem graça: — Cara, eu só tava reclamando do aplicativo.",
+      "No domingo anterior, algo parecido aconteceu em casa. Marina contou, enquanto mexia no café, que não queria mais fazer inglês. Daniel começou perguntando o motivo, depois separou motivação de disciplina, falou sobre metas de longo prazo e terminou sugerindo maneiras de manter o estudo sem continuar no curso. Marina o interrompeu: — Daniel, eu só te contei que vou parar. Não pedi uma análise.",
+      "O detalhe que começa a incomodar Daniel é que ninguém parece estar dizendo que ele está errado. Bruno queria reclamar. Marina queria contar uma decisão. Em ambos os casos, Daniel transformou uma conversa cotidiana em um problema para investigar e resolver. Para ele, as conexões fazem sentido; para quem está do outro lado, a conversa simplesmente deixou de ser simples."
     ],
     question: "Quando percebe que novamente foi longe demais, como Daniel reage?",
     choices: [
