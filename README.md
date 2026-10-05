@@ -46,3 +46,15 @@ Nesse arquivo ficam as cenas, perguntas, opções, desfechos e os textos dos fin
 | `src/ahsd/story.ts` | Texto / narrativa |
 | `src/ahsd/game.tsx` | Lógica e interface do jogo |
 | `src/ahsd/game.css` | Estilo visual |
+
+## Editor de cenas
+
+O projeto também incorpora o editor de cenas do repositório colaborativo. Com o servidor local rodando, abra `/editor` para editar as 30 cenas, narrativa, perguntas, escolhas, consequências, atributos, imagens e finais.
+
+- `/editor` — editor de autoria
+- `src/ahsd/story.ts` — dados da narrativa
+- `public/ahsd/images/` — imagens das cenas
+- **Salvar no jogo** — grava as alterações diretamente no arquivo da narrativa quando o editor está rodando localmente
+- **Baixar backup JSON** — cria uma cópia das cenas e finais antes de alterações maiores
+
+O editor foi incorporado sem substituir o `game.tsx` e o `game.css` da versão mais recente do projeto.
