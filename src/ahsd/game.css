@@ -1361,3 +1361,56 @@ body { overscroll-behavior: none; }
 .outcome-panel .continue {
   margin-top: 18px;
 }
+
+
+/* === AJUSTE FINO: HUD MAIS LARGO + PERSONAGENS INTEIROS === */
+@media (min-width: 761px) {
+  .vn-visual-row {
+    grid-template-columns: minmax(330px, 360px) minmax(0, 1fr);
+    gap: 16px;
+  }
+  .vn-hud { min-width: 0; }
+  .stats {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 8px;
+  }
+  .stat { padding: 8px 9px; }
+  .stat-name { font-size: 10px; }
+  .stat-bar { height: 11px; margin-top: 6px; }
+  .scene-artwork {
+    object-fit: contain;
+    object-position: center center;
+    background: #0e0b06;
+  }
+  .vn-heading-line {
+    display: flex;
+    align-items: baseline;
+    gap: 22px;
+    min-width: 0;
+  }
+  .vn-heading-line .vn-date {
+    color: #f1d17b;
+    font-size: 16px;
+    font-weight: 700;
+    letter-spacing: .06em;
+    white-space: nowrap;
+  }
+}
+
+@media (max-width: 760px) {
+  .scene-artwork {
+    object-fit: contain;
+    object-position: center center;
+    background: #0e0b06;
+  }
+  .vn-heading-line {
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+  }
+  .vn-heading-line .vn-date {
+    color: #f1d17b;
+    font-size: 14px;
+    font-weight: 700;
+  }
+}
