@@ -410,12 +410,20 @@ export function AhsdGame() {
     setPhase("event");
   };
 
-  // Modo de teste: a tecla \"]\" avança diretamente para a próxima cena sem precisar jogar as anteriores.
-  // O atalho só funciona fora da introdução e não altera os atributos nem o histórico.
+  // Modo de teste: a tecla "]" permite sair da introdução e avançar pelas cenas sem jogar as anteriores.
+  // O atalho não altera os atributos nem o histórico.
   useEffect(() => {
     const handleTestAdvance = (event: KeyboardEvent) => {
-      if (event.key !== "]" || phase === "intro" || phase === "result") return;
+      if (event.key !== "]" || phase === "result") return;
       event.preventDefault();
+
+      if (phase === "intro") {
+        setIntroReady(true);
+        setEventTextReady(false);
+        setQuestionReady(false);
+        setPhase("event");
+        return;
+      }
 
       if (sceneIndex >= scenes.length - 1) {
         setPhase("ending");
