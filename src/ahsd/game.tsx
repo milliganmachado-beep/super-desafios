@@ -41,14 +41,22 @@ const statImpact: Record<StatKey, { gain: string; loss: string }> = {
 };
 
 function impactText(deltas: Choice["deltas"], outcome: string, currentStats: Record<StatKey, number>) {
-  const impacts = STAT_KEYS.filter((key) => deltas[key]).map((key) => {
+  const gains = STAT_KEYS.filter((key) => (deltas[key] ?? 0) > 0).map((key) => {
     const value = deltas[key] ?? 0;
-    const label = statLabels[key].toLowerCase();
-    const phrase = value > 0 ? statImpact[key].gain : statImpact[key].loss;
-    return `${phrase}. ${label.charAt(0).toUpperCase() + label.slice(1)} agora está em ${currentStats[key]}.`;
+    return `${statImpact[key].gain}. ${statLabels[key]} +${value} (agora ${currentStats[key]}).`;
   });
+  const losses = STAT_KEYS.filter((key) => (deltas[key] ?? 0) < 0).map((key) => {
+    const value = Math.abs(deltas[key] ?? 0);
+    return `${statImpact[key].loss}. ${statLabels[key]} -${value} (agora ${currentStats[key]}).`;
+  });
+  const impacts = [...gains, ...losses];
   if (!impacts.length) return `${outcome} Não houve uma mudança imediata nos atributos, mas a escolha passa a fazer parte do caminho de Daniel.`;
-  return `${outcome} ${impacts.join(" ")}`;
+  const feeling = gains.length && losses.length
+    ? "A escolha trouxe um ganho e um custo ao mesmo tempo — como acontece quando Daniel precisa escolher o que consegue sustentar naquele momento."
+    : gains.length
+      ? "Por alguns instantes, Daniel percebe que essa escolha abriu espaço para ele respirar, se aproximar ou seguir no próprio ritmo."
+      : "O alívio ou a decisão teve um preço: alguma parte da experiência de Daniel ficou mais pesada depois desse momento.";
+  return `${outcome} ${feeling} ${impacts.join(" ")}`;
 }
 
 function deltaText(deltas: Choice["deltas"]) {
