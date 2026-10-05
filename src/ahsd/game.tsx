@@ -523,9 +523,9 @@ export function AhsdGame() {
             </div>
 
             {phase === "event" && scene.id < 30 ? <section ref={sceneDialogueRef} className={`dialogue-panel scene-dialogue scene-${scene.id}`}>
-  <div className="narrative">
+  {!eventTextReady ? <div className="narrative">
     <SequentialTyping paragraphs={scene.event} speed={32} onFinished={() => setEventTextReady(true)} />
-  </div>
+  </div> : null}
   {eventTextReady ? <div className="question">
     <strong><TypingText text={scene.question} speed={32} onComplete={() => setQuestionReady(true)} /></strong>
   </div> : null}
